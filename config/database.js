@@ -2,7 +2,7 @@
 const mongoose = require('mongoose');
 
 // MONGO_URI aus Umgebungsvariablen holen
-const mongoURI = process.env.MONGO_URI || 'mongodb://schoolnote:9VxeX9mYqcyF2kwF6FMRGk5NW3ExLcPrfFWfji@2.56.244.13:25567/schoolnote'; // Ersetze mit deiner URI
+const mongoURI = process.env.MONGO_URI; // Ersetze mit deiner URI
 
 // Verbindung zu MongoDB herstellen
 async function setupDatabase() {
