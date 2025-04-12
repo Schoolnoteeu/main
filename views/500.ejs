@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>500 - Serverfehler | Schoolnote.eu</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 transition-colors duration-200">
+  <div class="min-h-screen flex flex-col">
+    <main class="flex-1 flex flex-col items-center justify-center p-4">
+      <div class="max-w-md w-full bg-white dark:bg-gray-800 shadow-lg rounded-lg overflow-hidden transition-colors duration-200">
+        <div class="p-6 text-center">
+          <div class="w-20 h-20 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center mx-auto">
+            <i data-feather="alert-triangle" class="h-10 w-10 text-red-500 dark:text-red-400"></i>
+          </div>
+          
+          <h1 class="mt-5 text-4xl font-bold text-gray-900 dark:text-white">500</h1>
+          <h2 class="mt-2 text-xl font-medium text-red-600 dark:text-red-400">Serverfehler</h2>
+          
+          <p class="mt-4 text-gray-500 dark:text-gray-400">
+            Es ist ein unerwarteter Fehler aufgetreten. Unsere Techniker wurden informiert und arbeiten bereits an einer Lösung.
+          </p>
+          
+          <div class="mt-8 space-y-3">
+            <button onclick="window.location.reload()" class="w-full inline-flex justify-center items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-amber-500 hover:bg-amber-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 transition-colors duration-200">
+              <i data-feather="refresh-cw" class="h-4 w-4 mr-2"></i>
+              Seite neu laden
+            </button>
+            
+            <a href="/dashboard" class="w-full inline-flex justify-center items-center px-4 py-2 border border-gray-300 dark:border-gray-700 text-sm font-medium rounded-md text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 transition-colors duration-200">
+              <i data-feather="home" class="h-4 w-4 mr-2"></i>
+              Zum Dashboard
+            </a>
+          </div>
+        </div>
+        
+        <div class="px-6 py-4 bg-gray-50 dark:bg-gray-700/50 border-t border-gray-200 dark:border-gray-700">
+          <div class="text-sm text-gray-500 dark:text-gray-400">
+            <p class="font-medium mb-1">Technische Informationen:</p>
+            <p class="font-mono text-xs bg-gray-100 dark:bg-gray-600 p-2 rounded">
+              Error ID: 3f8a021e-8d7b-42e1-9c1a-e4871befc482
+            </p>
+            <p class="mt-3 text-center">
+              Bitte teile diese ID mit, wenn du den <a href="/kontakt" class="font-medium text-amber-600 dark:text-amber-400 hover:text-amber-700 dark:hover:text-amber-300 transition-colors duration-150">Support kontaktierst</a>.
+            </p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="mt-8 text-center text-sm text-gray-500 dark:text-gray-400">
+        <a href="/dashboard" class="inline-flex items-center text-amber-600 dark:text-amber-400 hover:text-amber-700 dark:hover:text-amber-300 transition-colors duration-150">
+          <img class="h-6 w-auto mr-2" src="/images/logo.png" alt="Schoolnote.eu Logo">
+          Schoolnote.eu
+        </a>
+      </div>
+    </main>
+
+    <footer class="bg-white dark:bg-gray-800 shadow-inner mt-auto">
+      <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+          <div class="flex items-center text-gray-500 dark:text-gray-400 text-sm">
+            <img class="h-6 w-auto mr-2" src="/images/logo.png" alt="Schoolnote.eu Logo">
+            <p>&copy; 2023 Schoolnote.eu - Alle Rechte vorbehalten</p>
+          </div>
+          <div class="flex justify-center space-x-6 text-sm text-gray-500 dark:text-gray-400">
+            <a href="/datenschutz" class="hover:text-amber-600 dark:hover:text-amber-400 transition-colors duration-200">Datenschutz</a>
+            <a href="/impressum" class="hover:text-amber-600 dark:hover:text-amber-400 transition-colors duration-200">Impressum</a>
+            <a href="/nutzungsbedingungen" class="hover:text-amber-600 dark:hover:text-amber-400 transition-colors duration-200">Nutzungsbedingungen</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Feather Icons initialisieren
+      feather.replace();
+      
+      // Systemeinstellung für Dark Mode übernehmen
+      if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+      
+      // Auf Änderungen der Systemeinstellung reagieren
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+        if (event.matches) {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+      });
+    });
+  </script>
+  <style>
+    /* Dark Mode Styles */
+    .dark {
+      color-scheme: dark;
+    }
+    
+    /* Für TailwindCSS Dark Mode Unterstützung */
+    @media (prefers-color-scheme: dark) {
+      .dark\:bg-gray-900 {
+        background-color: #111827;
+      }
+      .dark\:bg-gray-800 {
+        background-color: #1f2937;
+      }
+      .dark\:bg-gray-700 {
+        background-color: #374151;
+      }
+      .dark\:bg-gray-600 {
+        background-color: #4b5563;
+      }
+      .dark\:border-gray-700 {
+        border-color: #374151;
+      }
+      .dark\:text-white {
+        color: #ffffff;
+      }
+      .dark\:text-gray-200 {
+        color: #e5e7eb;
+      }
+      .dark\:text-gray-400 {
+        color: #9ca3af;
+      }
+      .dark\:text-red-400 {
+        color: #f87171;
+      }
+      .dark\:text-amber-400 {
+        color: #fbbf24;
+      }
+      .dark\:text-amber-300 {
+        color: #fcd34d;
+      }
+      .dark\:bg-red-900\/30 {
+        background-color: rgba(127, 29, 29, 0.3);
+      }
+      .dark\:hover\:bg-gray-700:hover {
+        background-color: #374151;
+      }
+      .dark\:hover\:bg-gray-600:hover {
+        background-color: #4b5563;
+      }
+      .dark\:hover\:text-amber-300:hover {
+        color: #fcd34d;
+      }
+      .dark\:bg-gray-700\/50 {
+        background-color: rgba(55, 65, 81, 0.5);
+      }
+    }
+  </style>
+</body>
+</html>

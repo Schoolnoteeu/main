@@ -1,0 +1,175 @@
+<%- include('./partials/header') %>
+<body class="bg-gray-50 dark:bg-gray-900 transition-colors duration-200">
+  <div class="min-h-screen flex flex-col">
+    <main class="flex-1">
+      <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+        <!-- Überschrift und Suchleiste -->
+        <div class="px-4 sm:px-0 flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+          <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Benutzerliste</h1>
+          
+          <div class="relative flex items-center w-full sm:w-64 lg:w-80">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <i data-feather="search" class="h-4 w-4 text-gray-400 dark:text-gray-500"></i>
+            </div>
+            <input type="text" id="userSearch" class="block w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md leading-5 bg-white dark:bg-gray-800 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-500 dark:focus:ring-amber-400 focus:border-amber-500 dark:focus:border-amber-400 sm:text-sm transition-colors duration-200" placeholder="Benutzer suchen...">
+          </div>
+        </div>
+        
+        <!-- Button Benutzer erstellen -->
+        <div class="px-4 sm:px-0 flex justify-end mb-4">
+          <a href="/admin/users/add" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-amber-600 hover:bg-amber-700 dark:bg-amber-500 dark:hover:bg-amber-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 dark:focus:ring-amber-400 transition-colors duration-200">
+            <i data-feather="user-plus" class="h-4 w-4 mr-2"></i>
+            Benutzer erstellen
+          </a>
+        </div>
+
+        <!-- Responsive Tabelle -->
+        <div class="px-4 sm:px-0">
+          <div class="bg-white dark:bg-gray-800 shadow-md overflow-hidden rounded-lg">
+            <!-- Desktop Tabelle (ausgeblendet auf Mobilgeräten) -->
+            <div class="hidden md:block overflow-x-auto">
+              <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                <thead class="bg-gray-100 dark:bg-gray-700">
+                  <tr>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">ID</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Email</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Rolle</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Schule</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Aktionen</th>
+                  </tr>
+                </thead>
+                <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                  <% users.forEach(user => { %>
+                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-150">
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white"><%= user._id %></td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white"><%= user.email %></td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
+                        <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-400">
+                          <%= user.role %>
+                        </span>
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">coming soon</td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                        <div class="flex space-x-3">
+                          <a href="/admin/users/edit/<%= user._id %>" class="text-amber-600 dark:text-amber-400 hover:text-amber-900 dark:hover:text-amber-300 transition-colors duration-150">
+                            <i data-feather="edit" class="h-4 w-4"></i>
+                            <span class="sr-only">Bearbeiten</span>
+                          </a>
+                          <a href="/admin/users/delete/<%= user._id %>" class="text-red-600 dark:text-red-400 hover:text-red-900 dark:hover:text-red-300 transition-colors duration-150">
+                            <i data-feather="trash-2" class="h-4 w-4"></i>
+                            <span class="sr-only">Löschen</span>
+                          </a>
+                        </div>
+                      </td>
+                    </tr>
+                  <% }); %>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Mobile Karten-Ansicht (nur auf Mobilgeräten sichtbar) -->
+            <div class="md:hidden">
+              <ul class="divide-y divide-gray-200 dark:divide-gray-700">
+                <% users.forEach(user => { %>
+                  <li class="px-4 py-4 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-150">
+                    <div class="flex flex-col space-y-2">
+                      <div class="flex justify-between items-start">
+                        <div class="text-sm font-medium text-amber-600 dark:text-amber-400 truncate">
+                          <%= user.email %>
+                        </div>
+                        <div>
+                          <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-400">
+                            <%= user.role %>
+                          </span>
+                        </div>
+                      </div>
+                      
+                      <div class="text-xs text-gray-500 dark:text-gray-400">
+                        ID: <span class="font-mono text-gray-900 dark:text-white"><%= user._id %></span>
+                      </div>
+                      
+                      <div class="text-xs text-gray-500 dark:text-gray-400">
+                        Schule: <span class="text-gray-900 dark:text-white">coming soon</span>
+                      </div>
+                      
+                      <div class="flex justify-end space-x-3 mt-2">
+                        <a href="/admin/edit/<%= user._id %>" class="inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded text-amber-700 dark:text-amber-400 bg-amber-100 dark:bg-amber-900/30 hover:bg-amber-200 dark:hover:bg-amber-900/50 transition-colors duration-150">
+                          <i data-feather="edit" class="h-3 w-3 mr-1"></i>
+                          Bearbeiten
+                        </a>
+                        <a href="/admin/delete/<%= user._id %>" class="inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded text-red-700 dark:text-red-400 bg-red-100 dark:bg-red-900/30 hover:bg-red-200 dark:hover:bg-red-900/50 transition-colors duration-150">
+                          <i data-feather="trash-2" class="h-3 w-3 mr-1"></i>
+                          Löschen
+                        </a>
+                      </div>
+                    </div>
+                  </li>
+                <% }); %>
+              </ul>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Paginierung -->
+        <div class="px-4 sm:px-0 mt-4">
+          <div class="bg-white dark:bg-gray-800 px-4 py-3 flex items-center justify-between border-t border-gray-200 dark:border-gray-700 sm:px-6 rounded-lg shadow-md">
+            <div class="flex-1 flex justify-between sm:hidden">
+              <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 text-sm font-medium rounded-md text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-150">
+                Zurück
+              </a>
+              <a href="#" class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 text-sm font-medium rounded-md text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-150">
+                Weiter
+              </a>
+            </div>
+            <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+              <div>
+                <p class="text-sm text-gray-700 dark:text-gray-300">
+                  Zeige <span class="font-medium">1</span> bis <span class="font-medium"><%= users.length %></span> von <span class="font-medium"><%= users.length %></span> Einträgen
+                </p>
+              </div>
+              <div>
+                <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                  <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-150">
+                    <span class="sr-only">Vorherige</span>
+                    <i data-feather="chevron-left" class="h-5 w-5"></i>
+                  </a>
+                  <a href="#" aria-current="page" class="z-10 bg-amber-50 dark:bg-amber-900/20 border-amber-500 dark:border-amber-400 text-amber-600 dark:text-amber-400 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
+                    1
+                  </a>
+                  <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-150">
+                    <span class="sr-only">Nächste</span>
+                    <i data-feather="chevron-right" class="h-5 w-5"></i>
+                  </a>
+                </nav>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="bg-white dark:bg-gray-800 shadow-inner mt-auto">
+      <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+          <div class="flex items-center text-gray-500 dark:text-gray-400 text-sm">
+            <img class="h-6 w-auto mr-2" src="/images/logo.png" alt="Schoolnote.eu Logo">
+            <p>&copy; 2023 Schoolnote.eu - Alle Rechte vorbehalten</p>
+          </div>
+          <div class="flex justify-center space-x-6 text-sm text-gray-500 dark:text-gray-400">
+            <a href="/datenschutz" class="hover:text-amber-600 dark:hover:text-amber-400 transition-colors duration-200">Datenschutz</a>
+            <a href="/impressum" class="hover:text-amber-600 dark:hover:text-amber-400 transition-colors duration-200">Impressum</a>
+            <a href="/nutzungsbedingungen" class="hover:text-amber-600 dark:hover:text-amber-400 transition-colors duration-200">Nutzungsbedingungen</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    // Feather Icons initialisieren
+    document.addEventListener('DOMContentLoaded', function() {
+      feather.replace();
+    });
+  </script>
+</body>
+</html>

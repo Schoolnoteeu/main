@@ -1,0 +1,129 @@
+/* public/css/styles.css */
+
+/* Grundlegende Reset-Styles */
+* {
+  box-sizing: border-box;
+}
+
+/* Floating Background Circles */
+.circle {
+  position: absolute;
+  border-radius: 50%;
+  animation: float 8s ease-in-out infinite;
+}
+
+.circle-1 {
+  top: 15%;
+  left: 10%;
+  width: 300px;
+  height: 300px;
+  background: linear-gradient(to right, rgba(99, 102, 241, 0.1), rgba(79, 70, 229, 0.2));
+  animation-delay: 0s;
+}
+
+.circle-2 {
+  top: 60%;
+  right: 10%;
+  width: 400px;
+  height: 400px;
+  background: linear-gradient(to right, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.2));
+  animation-delay: 2s;
+}
+
+.circle-3 {
+  bottom: 10%;
+  left: 25%;
+  width: 200px;
+  height: 200px;
+  background: linear-gradient(to right, rgba(139, 92, 246, 0.1), rgba(124, 58, 237, 0.2));
+  animation-delay: 4s;
+}
+
+@keyframes float {
+  0% {
+    transform: translatey(0px) scale(1);
+  }
+  50% {
+    transform: translatey(-20px) scale(1.05);
+  }
+  100% {
+    transform: translatey(0px) scale(1);
+  }
+}
+
+/* Form Elements */
+.form-group {
+  margin-bottom: 1.25rem;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+}
+
+.form-input {
+  display: block;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #1f2937;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.form-input:focus {
+  border-color: #3b82f6;
+  outline: 0;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+}
+
+.input-icon {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  padding-left: 0.75rem;
+  color: #9ca3af;
+}
+
+/* Logo Container */
+.logo-container {
+  box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.1), 0 2px 4px -1px rgba(59, 130, 246, 0.06);
+  transition: all 0.3s ease;
+}
+
+.logo-container:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.2), 0 4px 6px -2px rgba(59, 130, 246, 0.1);
+}
+
+/* Button Animation */
+button[type="submit"] {
+  transition: all 0.3s ease;
+}
+
+button[type="submit"]:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.2), 0 2px 4px -1px rgba(59, 130, 246, 0.1);
+}
+
+button[type="submit"]:active {
+  transform: translateY(0);
+}
+
+/* Responsive anpassungen */
+@media (max-width: 640px) {
+  .circle {
+    opacity: 0.2;
+  }
+}

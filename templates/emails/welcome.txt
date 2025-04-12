@@ -1,0 +1,8 @@
+Hallo,
+
+Willkommen bei SchoolNote! Dein Konto wurde erfolgreich erstellt.
+
+Du kannst dich jetzt mit deiner E-Mail-Adresse und deinem Passwort anmelden: {{loginUrl}}
+
+Mit freundlichen Grüßen,
+Dein SchoolNote-Team
