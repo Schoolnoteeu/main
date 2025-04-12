@@ -1,23 +1,23 @@
 <!-- views/stundenplan.ejs -->
 
 <%- include('./partials/header') %>
-<body class="bg-gray-50 dark:bg-gray-900 transition-colors duration-200">
+<body class="bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
   <div class="min-h-screen flex flex-col">
     <main class="flex-1">
-      <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-        <!-- Überschrift und Steuerungselemente -->
-        <div class="px-4 py-4 sm:px-0">
-          <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+      <div class="max-w-5xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+        <!-- Header mit Titel und Steuerungselementen -->
+        <div class="mb-8">
+          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div class="flex items-center">
-              <div class="flex-shrink-0 bg-gradient-to-br from-amber-500 to-amber-600 rounded-lg p-3 mr-4 shadow-md">
+              <div class="bg-gradient-to-r from-amber-500 to-amber-600 p-3 rounded-lg shadow-md mr-4">
                 <i data-feather="calendar" class="h-6 w-6 text-white"></i>
               </div>
               <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Stundenplan</h1>
             </div>
             
-            <div class="mt-4 md:mt-0 flex space-x-3">
-              <div class="relative">
-                <select id="week-select" class="appearance-none bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-md py-2 pl-3 pr-10 text-sm leading-5 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-colors duration-200 shadow-sm">
+            <div class="flex gap-3">
+              <div class="relative flex-1 sm:flex-initial">
+                <select id="week-select" class="w-full sm:w-auto appearance-none bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg py-2 pl-3 pr-10 text-sm text-gray-900 dark:text-white focus:ring-2 focus:ring-amber-500 focus:border-amber-500 shadow-sm transition-colors duration-200" aria-label="Woche auswählen">
                   <option value="current">Aktuelle Woche (08.04 - 12.04)</option>
                   <option value="next">Nächste Woche (15.04 - 19.04)</option>
                   <option value="after">Übernächste Woche (22.04 - 26.04)</option>
@@ -27,7 +27,7 @@
                 </div>
               </div>
               
-              <button type="button" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 transition-all duration-200">
+              <button type="button" class="flex items-center px-4 py-2 bg-gradient-to-r from-amber-500 to-amber-600 text-white rounded-lg shadow-sm hover:from-amber-600 hover:to-amber-700 transition-all duration-300" aria-label="Stundenplan drucken">
                 <i data-feather="printer" class="h-4 w-4 mr-2"></i>
                 Drucken
               </button>
@@ -35,207 +35,149 @@
           </div>
         </div>
 
-        <!-- Auswahlleiste für Filter -->
-        <div class="px-4 py-3 sm:px-0 bg-white dark:bg-gray-800 shadow rounded-lg mb-4 transition-colors duration-200">
-          <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4 items-center">
-            <div class="w-full sm:w-auto flex items-center">
-              <span class="text-sm font-medium text-gray-500 dark:text-gray-400 mr-2">Anzeigen:</span>
-              <div class="flex space-x-2">
-                <button class="px-3 py-1.5 bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-400 rounded-md text-xs font-medium hover:bg-amber-200 dark:hover:bg-amber-800/40 transition-colors shadow-sm">
-                  Alle Fächer
-                </button>
-                <button class="px-3 py-1.5 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-md text-xs font-medium hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors shadow-sm">
-                  Nur Hauptfächer
-                </button>
-                <div class="relative inline-block">
-                  <button id="more-filters-btn" class="px-3 py-1.5 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-md text-xs font-medium flex items-center hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors shadow-sm">
-                    <i data-feather="filter" class="h-3 w-3 mr-1"></i>
-                    Filter
-                  </button>
-                </div>
-              </div>
+        <!-- Filter -->
+        <div class="mb-6 bg-white dark:bg-gray-800 shadow rounded-lg p-4">
+          <div class="flex flex-wrap gap-3 items-center justify-between">
+            <div class="flex flex-wrap gap-2">
+              <button class="px-3 py-1.5 bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-400 rounded-md text-xs font-medium hover:bg-amber-200 dark:hover:bg-amber-800/40 transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-500" aria-pressed="true">
+                Alle Fächer
+              </button>
+              <button class="px-3 py-1.5 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-md text-xs font-medium hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-500" aria-pressed="false">
+                Hauptfächer
+              </button>
+              <button class="px-3 py-1.5 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-md text-xs font-medium hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-500" aria-pressed="false">
+                Nebenfächer
+              </button>
             </div>
             
-            <div class="w-full sm:w-auto flex space-x-3 sm:ml-auto">
-              <label class="inline-flex items-center">
-                <input type="checkbox" checked class="rounded text-amber-500 focus:ring-amber-500 dark:bg-gray-700">
-                <span class="ml-2 text-sm text-gray-700 dark:text-gray-300">Vertretungen anzeigen</span>
-              </label>
-              <label class="inline-flex items-center">
-                <input type="checkbox" checked class="rounded text-amber-500 focus:ring-amber-500 dark:bg-gray-700">
-                <span class="ml-2 text-sm text-gray-700 dark:text-gray-300">Doppelstunden zusammenfassen</span>
-              </label>
+            <div class="flex items-center">
+              <span class="text-xs font-medium text-gray-500 dark:text-gray-400 mr-2">Ansicht:</span>
+              <div class="flex items-center space-x-1 bg-gray-200 dark:bg-gray-700 p-1 rounded-md">
+                <button id="view-week" class="p-1.5 rounded bg-white dark:bg-gray-800 shadow-sm text-gray-700 dark:text-gray-300">
+                  <i data-feather="grid" class="h-4 w-4"></i>
+                  <span class="sr-only">Wochenansicht</span>
+                </button>
+                <button id="view-day" class="p-1.5 rounded text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-600">
+                  <i data-feather="list" class="h-4 w-4"></i>
+                  <span class="sr-only">Tagesansicht</span>
+                </button>
+              </div>
             </div>
           </div>
         </div>
 
-        <!-- Legende -->
-        <div class="px-4 sm:px-0 mb-4">
-          <div class="flex flex-wrap items-center text-xs text-gray-500 dark:text-gray-400 gap-x-6 gap-y-2">
-            <span class="font-medium">Legende:</span>
-            <div class="flex items-center">
-              <span class="inline-block w-3 h-3 bg-red-100 dark:bg-red-900/30 border border-red-300 dark:border-red-700 border-dashed rounded-sm mr-1"></span>
-              <span>Vertretung</span>
-            </div>
-            <div class="flex items-center">
-              <span class="inline-block w-3 h-3 bg-amber-100 dark:bg-amber-900/30 border-2 border-amber-300 dark:border-amber-700 rounded-sm mr-1"></span>
-              <span>Doppelstunde</span>
-            </div>
-            <div class="flex items-center">
-              <span class="inline-block w-3 h-3 bg-blue-100 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-700 rounded-sm mr-1"></span>
-              <span>Raumänderung</span>
-            </div>
-            <div class="flex items-center">
-              <span class="inline-block w-3 h-3 bg-green-100 dark:bg-green-900/30 border border-green-200 dark:border-green-700 rounded-sm mr-1"></span>
-              <span>Klausur/Test</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Mobile Stundenplan (nur auf kleinen Bildschirmen sichtbar) -->
-        <div class="block md:hidden mt-4 px-4 sm:px-0">
-          <div class="bg-white dark:bg-gray-800 shadow-lg rounded-lg overflow-hidden transition-colors duration-200">
-            <div class="px-4 py-3 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-700/40">
-              <div class="flex justify-between items-center">
-                <button class="p-1.5 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
-                  <i data-feather="chevron-left" class="h-5 w-5 text-gray-600 dark:text-gray-400"></i>
-                </button>
-                <h2 class="text-lg font-medium text-gray-900 dark:text-white">Montag, 08.04</h2>
-                <button class="p-1.5 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
-                  <i data-feather="chevron-right" class="h-5 w-5 text-gray-600 dark:text-gray-400"></i>
-                </button>
+        <!-- Legende und Schnellnavigation -->
+        <div class="flex flex-col sm:flex-row gap-4 mb-6">
+          <!-- Legende -->
+          <div class="flex-1 bg-white dark:bg-gray-800 shadow rounded-lg p-4">
+            <h3 class="text-xs font-medium uppercase text-gray-500 dark:text-gray-400 mb-3">Legende</h3>
+            <div class="grid grid-cols-2 gap-3">
+              <div class="flex items-center">
+                <span class="inline-block w-3 h-3 bg-red-100 dark:bg-red-900/30 border border-red-300 dark:border-red-700 border-dashed rounded-sm mr-2"></span>
+                <span class="text-xs text-gray-700 dark:text-gray-300">Vertretung</span>
+              </div>
+              <div class="flex items-center">
+                <span class="inline-block w-3 h-3 bg-amber-100 dark:bg-amber-900/30 border-2 border-amber-300 dark:border-amber-700 rounded-sm mr-2"></span>
+                <span class="text-xs text-gray-700 dark:text-gray-300">Doppelstunde</span>
+              </div>
+              <div class="flex items-center">
+                <span class="inline-block w-3 h-3 bg-blue-100 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-700 rounded-sm mr-2"></span>
+                <span class="text-xs text-gray-700 dark:text-gray-300">Raumänderung</span>
+              </div>
+              <div class="flex items-center">
+                <span class="inline-block w-3 h-3 bg-green-100 dark:bg-green-900/30 border border-green-200 dark:border-green-700 rounded-sm mr-2"></span>
+                <span class="text-xs text-gray-700 dark:text-gray-300">Klausur/Test</span>
               </div>
             </div>
-            
-            <ul class="divide-y divide-gray-200 dark:divide-gray-700">
-              <!-- Stunde 1 -->
-              <li class="px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-700/40 transition-colors duration-150">
-                <div class="flex justify-between">
-                  <span class="text-sm font-medium text-gray-900 dark:text-white">08:00 - 08:45</span>
-                  <span class="text-xs px-2 py-1 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-400">1. Stunde</span>
-                </div>
-                <div class="mt-2">
-                  <h3 class="text-lg font-semibold text-blue-600 dark:text-blue-400">Deutsch</h3>
-                  <div class="mt-1.5 flex items-center text-sm text-gray-500 dark:text-gray-400">
-                    <i data-feather="user" class="h-4 w-4 mr-1.5 text-gray-400 dark:text-gray-500"></i>
-                    Fr. Müller
-                  </div>
-                  <div class="mt-1.5 flex items-center text-sm text-gray-500 dark:text-gray-400">
-                    <i data-feather="map-pin" class="h-4 w-4 mr-1.5 text-gray-400 dark:text-gray-500"></i>
-                    Raum 201
-                  </div>
-                </div>
-              </li>
+          </div>
+          
+          <!-- Wochennavigation -->
+          <div class="flex-1 bg-white dark:bg-gray-800 shadow rounded-lg p-4">
+            <h3 class="text-xs font-medium uppercase text-gray-500 dark:text-gray-400 mb-3">Schnellnavigation</h3>
+            <div class="flex justify-between">
+              <button class="px-3 py-1.5 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 rounded-md text-xs font-medium transition-colors">
+                <i data-feather="arrow-left" class="h-3 w-3 inline mr-1"></i>
+                Vorherige
+              </button>
               
-              <!-- Stunde 2 (mit Vertretung) -->
-              <li class="px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-700/40 transition-colors duration-150 border-l-4 border-red-400 dark:border-red-500">
-                <div class="flex justify-between">
-                  <span class="text-sm font-medium text-gray-900 dark:text-white">08:45 - 09:30</span>
-                  <span class="text-xs px-2 py-1 rounded-full bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-400">Vertretung</span>
-                </div>
-                <div class="mt-2">
-                  <h3 class="text-lg font-semibold text-amber-600 dark:text-amber-400">
-                    Mathematik
-                    <span class="text-xs font-normal text-gray-500 dark:text-gray-400 ml-1">(statt Englisch)</span>
-                  </h3>
-                  <div class="mt-1.5 flex items-center text-sm text-gray-500 dark:text-gray-400">
-                    <i data-feather="user" class="h-4 w-4 mr-1.5 text-gray-400 dark:text-gray-500"></i>
-                    Hr. Schmidt
-                    <span class="text-xs ml-1">(statt Fr. Johnson)</span>
-                  </div>
-                  <div class="mt-1.5 flex items-center text-sm text-gray-500 dark:text-gray-400">
-                    <i data-feather="map-pin" class="h-4 w-4 mr-1.5 text-gray-400 dark:text-gray-500"></i>
-                    Raum 204
-                  </div>
-                </div>
-              </li>
+              <div class="px-3 py-1.5 bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-400 rounded-md text-xs font-medium">
+                08.04 - 12.04
+              </div>
               
-              <!-- Kurze Pause -->
-              <li class="px-4 py-2 bg-gray-50 dark:bg-gray-700/40">
-                <div class="flex items-center">
-                  <i data-feather="coffee" class="h-4 w-4 mr-2 text-gray-500 dark:text-gray-400"></i>
-                  <span class="text-sm font-medium text-gray-500 dark:text-gray-400">Pause (09:30 - 09:45)</span>
-                </div>
-              </li>
-              
-              <!-- Stunde 3 und 4 als Doppelstunde -->
-              <li class="px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-700/40 transition-colors duration-150 border-l-4 border-amber-400 dark:border-amber-500">
-                <div class="flex justify-between">
-                  <span class="text-sm font-medium text-gray-900 dark:text-white">09:45 - 11:15</span>
-                  <span class="text-xs px-2 py-1 rounded-full bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-400">Doppelstunde</span>
-                </div>
-                <div class="mt-2">
-                  <h3 class="text-lg font-semibold text-green-600 dark:text-green-400">Biologie</h3>
-                  <div class="mt-1.5 flex items-center text-sm text-gray-500 dark:text-gray-400">
-                    <i data-feather="user" class="h-4 w-4 mr-1.5 text-gray-400 dark:text-gray-500"></i>
-                    Fr. Weber
-                  </div>
-                  <div class="mt-1.5 flex items-center text-sm text-gray-500 dark:text-gray-400">
-                    <i data-feather="map-pin" class="h-4 w-4 mr-1.5 text-gray-400 dark:text-gray-500"></i>
-                    Raum 302
-                  </div>
-                  <div class="mt-1.5 flex items-center text-sm text-green-600 dark:text-green-400">
-                    <i data-feather="file-text" class="h-4 w-4 mr-1.5"></i>
-                    <span>Klausur: Genetik</span>
-                  </div>
-                </div>
-              </li>
-              
-              <!-- Weitere Einträge... -->
-              <li class="px-4 py-3 text-center">
-                <a href="#" class="text-amber-600 dark:text-amber-400 text-sm font-medium hover:text-amber-700 dark:hover:text-amber-300 transition-colors">
-                  Vollständigen Tagesplan anzeigen
-                </a>
-              </li>
-            </ul>
+              <button class="px-3 py-1.5 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 rounded-md text-xs font-medium transition-colors">
+                Nächste
+                <i data-feather="arrow-right" class="h-3 w-3 inline ml-1"></i>
+              </button>
+            </div>
           </div>
         </div>
 
         <!-- Desktop Stundenplan -->
-        <div class="hidden md:block mt-4 px-4 sm:px-0 overflow-x-auto">
-          <div class="inline-block min-w-full shadow-lg rounded-lg overflow-hidden">
-            <div class="bg-white dark:bg-gray-800 transition-colors duration-200">
+        <div class="hidden md:block">
+          <div class="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden">
+            <div class="overflow-x-auto">
               <table class="min-w-full">
                 <thead>
-                  <tr class="bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-700/40 dark:to-gray-700/60 border-b border-gray-200 dark:border-gray-700">
-                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider w-20">
+                  <tr class="bg-gray-50 dark:bg-gray-700/40 border-b border-gray-200 dark:border-gray-700">
+                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider w-24">
                       Zeit
                     </th>
                     <th class="px-4 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                      Montag<br><span class="font-normal">08.04</span>
+                      <div class="flex flex-col items-center">
+                        <span>Montag</span>
+                        <span class="font-normal text-amber-500 dark:text-amber-400">08.04</span>
+                      </div>
                     </th>
                     <th class="px-4 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                      Dienstag<br><span class="font-normal">09.04</span>
+                      <div class="flex flex-col items-center">
+                        <span>Dienstag</span>
+                        <span class="font-normal text-amber-500 dark:text-amber-400">09.04</span>
+                      </div>
                     </th>
                     <th class="px-4 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                      Mittwoch<br><span class="font-normal">10.04</span>
+                      <div class="flex flex-col items-center">
+                        <span>Mittwoch</span>
+                        <span class="font-normal text-amber-500 dark:text-amber-400">10.04</span>
+                      </div>
                     </th>
                     <th class="px-4 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                      Donnerstag<br><span class="font-normal">11.04</span>
+                      <div class="flex flex-col items-center">
+                        <span>Donnerstag</span>
+                        <span class="font-normal text-amber-500 dark:text-amber-400">11.04</span>
+                      </div>
                     </th>
                     <th class="px-4 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                      Freitag<br><span class="font-normal">12.04</span>
+                      <div class="flex flex-col items-center">
+                        <span>Freitag</span>
+                        <span class="font-normal text-amber-500 dark:text-amber-400">12.04</span>
+                      </div>
                     </th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
                   <!-- 1. Stunde -->
                   <tr>
-                    <td class="px-4 py-2 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white bg-gray-50 dark:bg-gray-700/20">
-                      <div>08:00</div>
-                      <div>08:45</div>
-                      <div class="mt-1 text-xs font-semibold text-gray-500 dark:text-gray-400">1. Stunde</div>
+                    <td class="px-4 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white bg-gray-50 dark:bg-gray-700/20">
+                      <div class="flex flex-col items-center">
+                        <span class="text-xs text-gray-500 dark:text-gray-400">1. Stunde</span>
+                        <span class="font-medium mt-1">08:00</span>
+                        <span class="text-xs">-</span>
+                        <span class="font-medium">08:45</span>
+                      </div>
                     </td>
                     
                     <!-- Montag, 1. Stunde -->
-                    <td class="p-2">
-                      <div class="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/10 dark:to-blue-900/20 border border-blue-200 dark:border-blue-900/30 rounded-lg p-3 transform transition-all duration-200 hover:scale-105 hover:shadow-md">
-                        <h3 class="font-semibold text-blue-800 dark:text-blue-400">Deutsch</h3>
-                        <div class="mt-1.5 flex items-center text-xs text-blue-600 dark:text-blue-300">
+                    <td class="p-2 transition-colors hover:bg-gray-50 dark:hover:bg-gray-700/20">
+                      <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-3 hover:shadow-md transition-shadow duration-300">
+                        <h3 class="font-medium text-gray-900 dark:text-white flex items-center justify-between">
+                          <span>Deutsch</span>
+                          <span class="bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 text-xs px-1.5 py-0.5 rounded">D</span>
+                        </h3>
+                        <div class="mt-2 flex items-center text-xs text-gray-500 dark:text-gray-400">
                           <i data-feather="user" class="h-3 w-3 mr-1.5"></i>
                           Fr. Müller
                         </div>
-                        <div class="mt-1 flex items-center text-xs text-blue-600 dark:text-blue-300">
+                        <div class="mt-1.5 flex items-center text-xs text-gray-500 dark:text-gray-400">
                           <i data-feather="map-pin" class="h-3 w-3 mr-1.5"></i>
                           Raum 201
                         </div>
@@ -243,14 +185,17 @@
                     </td>
                     
                     <!-- Dienstag, 1. Stunde -->
-                    <td class="p-2">
-                      <div class="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/10 dark:to-green-900/20 border border-green-200 dark:border-green-900/30 rounded-lg p-3 transform transition-all duration-200 hover:scale-105 hover:shadow-md">
-                        <h3 class="font-semibold text-green-800 dark:text-green-400">Biologie</h3>
-                        <div class="mt-1.5 flex items-center text-xs text-green-600 dark:text-green-300">
+                    <td class="p-2 transition-colors hover:bg-gray-50 dark:hover:bg-gray-700/20">
+                      <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-3 hover:shadow-md transition-shadow duration-300">
+                        <h3 class="font-medium text-gray-900 dark:text-white flex items-center justify-between">
+                          <span>Biologie</span>
+                          <span class="bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 text-xs px-1.5 py-0.5 rounded">Bio</span>
+                        </h3>
+                        <div class="mt-2 flex items-center text-xs text-gray-500 dark:text-gray-400">
                           <i data-feather="user" class="h-3 w-3 mr-1.5"></i>
                           Fr. Weber
                         </div>
-                        <div class="mt-1 flex items-center text-xs text-green-600 dark:text-green-300">
+                        <div class="mt-1.5 flex items-center text-xs text-gray-500 dark:text-gray-400">
                           <i data-feather="map-pin" class="h-3 w-3 mr-1.5"></i>
                           Raum 302
                         </div>
@@ -258,14 +203,17 @@
                     </td>
                     
                     <!-- Mittwoch, 1. Stunde -->
-                    <td class="p-2">
-                      <div class="bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-900/10 dark:to-purple-900/20 border border-purple-200 dark:border-purple-900/30 rounded-lg p-3 transform transition-all duration-200 hover:scale-105 hover:shadow-md">
-                        <h3 class="font-semibold text-purple-800 dark:text-purple-400">Geschichte</h3>
-                        <div class="mt-1.5 flex items-center text-xs text-purple-600 dark:text-purple-300">
+                    <td class="p-2 transition-colors hover:bg-gray-50 dark:hover:bg-gray-700/20">
+                      <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-3 hover:shadow-md transition-shadow duration-300">
+                        <h3 class="font-medium text-gray-900 dark:text-white flex items-center justify-between">
+                          <span>Geschichte</span>
+                          <span class="bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-300 text-xs px-1.5 py-0.5 rounded">Ge</span>
+                        </h3>
+                        <div class="mt-2 flex items-center text-xs text-gray-500 dark:text-gray-400">
                           <i data-feather="user" class="h-3 w-3 mr-1.5"></i>
                           Hr. Fischer
                         </div>
-                        <div class="mt-1 flex items-center text-xs text-purple-600 dark:text-purple-300">
+                        <div class="mt-1.5 flex items-center text-xs text-gray-500 dark:text-gray-400">
                           <i data-feather="map-pin" class="h-3 w-3 mr-1.5"></i>
                           Raum 210
                         </div>
@@ -273,21 +221,23 @@
                     </td>
                     
                     <!-- Donnerstag, 1. Stunde - Vertretung -->
-                    <td class="p-2">
-                      <div class="bg-gradient-to-br from-amber-50 to-amber-100 dark:from-amber-900/10 dark:to-amber-900/20 border-2 border-red-300 dark:border-red-700 border-dashed rounded-lg p-3 transform transition-all duration-200 hover:scale-105 hover:shadow-md relative">
+                    <td class="p-2 transition-colors hover:bg-gray-50 dark:hover:bg-gray-700/20">
+                      <div class="bg-white dark:bg-gray-800 border-2 border-red-300 dark:border-red-700 border-dashed rounded-lg p-3 hover:shadow-md transition-shadow duration-300 relative">
                         <span class="absolute -top-1 -right-1 flex h-5 w-5">
-                          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-30"></span>
                           <span class="relative inline-flex rounded-full h-5 w-5 bg-red-500 text-white text-xs items-center justify-center">
                             <i data-feather="alert-circle" class="h-3 w-3"></i>
                           </span>
                         </span>
-                        <h3 class="font-semibold text-amber-800 dark:text-amber-400">Mathematik</h3>
-                        <div class="mt-1.5 flex items-center text-xs text-amber-600 dark:text-amber-300">
+                        <h3 class="font-medium text-gray-900 dark:text-white flex items-center justify-between">
+                          <span>Mathematik</span>
+                          <span class="bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-300 text-xs px-1.5 py-0.5 rounded">M</span>
+                        </h3>
+                        <div class="mt-2 flex items-center text-xs text-gray-500 dark:text-gray-400">
                           <i data-feather="user" class="h-3 w-3 mr-1.5"></i>
                           <span class="line-through mr-1">Hr. Schmidt</span>
-                          <span>Fr. Meier</span>
+                          <span class="text-red-600 dark:text-red-400">Fr. Meier</span>
                         </div>
-                        <div class="mt-1 flex items-center text-xs text-amber-600 dark:text-amber-300">
+                        <div class="mt-1.5 flex items-center text-xs text-gray-500 dark:text-gray-400">
                           <i data-feather="map-pin" class="h-3 w-3 mr-1.5"></i>
                           Raum 204
                         </div>
@@ -295,14 +245,17 @@
                     </td>
                     
                     <!-- Freitag, 1. Stunde - Raumänderung -->
-                    <td class="p-2">
-                      <div class="bg-gradient-to-br from-red-50 to-red-100 dark:from-red-900/10 dark:to-red-900/20 border-2 border-blue-300 dark:border-blue-700 rounded-lg p-3 transform transition-all duration-200 hover:scale-105 hover:shadow-md">
-                        <h3 class="font-semibold text-red-800 dark:text-red-400">Kunst</h3>
-                        <div class="mt-1.5 flex items-center text-xs text-red-600 dark:text-red-300">
+                    <td class="p-2 transition-colors hover:bg-gray-50 dark:hover:bg-gray-700/20">
+                      <div class="bg-white dark:bg-gray-800 border-2 border-blue-300 dark:border-blue-700 rounded-lg p-3 hover:shadow-md transition-shadow duration-300">
+                        <h3 class="font-medium text-gray-900 dark:text-white flex items-center justify-between">
+                          <span>Kunst</span>
+                          <span class="bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300 text-xs px-1.5 py-0.5 rounded">Ku</span>
+                        </h3>
+                        <div class="mt-2 flex items-center text-xs text-gray-500 dark:text-gray-400">
                           <i data-feather="user" class="h-3 w-3 mr-1.5"></i>
                           Fr. Becker
                         </div>
-                        <div class="mt-1 flex items-center text-xs text-red-600 dark:text-red-300">
+                        <div class="mt-1.5 flex items-center text-xs text-gray-500 dark:text-gray-400">
                           <i data-feather="map-pin" class="h-3 w-3 mr-1.5"></i>
                           <span class="line-through mr-1">Raum 110</span>
                           <span class="text-blue-600 dark:text-blue-400">Raum 112</span>
@@ -313,21 +266,27 @@
                   
                   <!-- 2. Stunde -->
                   <tr>
-                    <td class="px-4 py-2 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white bg-gray-50 dark:bg-gray-700/20">
-                      <div>08:45</div>
-                      <div>09:30</div>
-                      <div class="mt-1 text-xs font-semibold text-gray-500 dark:text-gray-400">2. Stunde</div>
+                    <td class="px-4 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white bg-gray-50 dark:bg-gray-700/20">
+                      <div class="flex flex-col items-center">
+                        <span class="text-xs text-gray-500 dark:text-gray-400">2. Stunde</span>
+                        <span class="font-medium mt-1">08:45</span>
+                        <span class="text-xs">-</span>
+                        <span class="font-medium">09:30</span>
+                      </div>
                     </td>
                     
                     <!-- Montag, 2. Stunde -->
-                    <td class="p-2">
-                      <div class="bg-gradient-to-br from-amber-50 to-amber-100 dark:from-amber-900/10 dark:to-amber-900/20 border border-amber-200 dark:border-amber-900/30 rounded-lg p-3 transform transition-all duration-200 hover:scale-105 hover:shadow-md">
-                        <h3 class="font-semibold text-amber-800 dark:text-amber-400">Mathematik</h3>
-                        <div class="mt-1.5 flex items-center text-xs text-amber-600 dark:text-amber-300">
+                    <td class="p-2 transition-colors hover:bg-gray-50 dark:hover:bg-gray-700/20">
+                      <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-3 hover:shadow-md transition-shadow duration-300">
+                        <h3 class="font-medium text-gray-900 dark:text-white flex items-center justify-between">
+                          <span>Mathematik</span>
+                          <span class="bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-300 text-xs px-1.5 py-0.5 rounded">M</span>
+                        </h3>
+                        <div class="mt-2 flex items-center text-xs text-gray-500 dark:text-gray-400">
                           <i data-feather="user" class="h-3 w-3 mr-1.5"></i>
                           Hr. Schmidt
                         </div>
-                        <div class="mt-1 flex items-center text-xs text-amber-600 dark:text-amber-300">
+                        <div class="mt-1.5 flex items-center text-xs text-gray-500 dark:text-gray-400">
                           <i data-feather="map-pin" class="h-3 w-3 mr-1.5"></i>
                           Raum 204
                         </div>
@@ -335,14 +294,17 @@
                     </td>
                     
                     <!-- Dienstag, 2. Stunde -->
-                    <td class="p-2">
-                      <div class="bg-gradient-to-br from-indigo-50 to-indigo-100 dark:from-indigo-900/10 dark:to-indigo-900/20 border border-indigo-200 dark:border-indigo-900/30 rounded-lg p-3 transform transition-all duration-200 hover:scale-105 hover:shadow-md">
-                        <h3 class="font-semibold text-indigo-800 dark:text-indigo-400">Englisch</h3>
-                        <div class="mt-1.5 flex items-center text-xs text-indigo-600 dark:text-indigo-300">
+                    <td class="p-2 transition-colors hover:bg-gray-50 dark:hover:bg-gray-700/20">
+                      <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-3 hover:shadow-md transition-shadow duration-300">
+                        <h3 class="font-medium text-gray-900 dark:text-white flex items-center justify-between">
+                          <span>Englisch</span>
+                          <span class="bg-indigo-100 dark:bg-indigo-900/30 text-indigo-800 dark:text-indigo-300 text-xs px-1.5 py-0.5 rounded">E</span>
+                        </h3>
+                        <div class="mt-2 flex items-center text-xs text-gray-500 dark:text-gray-400">
                           <i data-feather="user" class="h-3 w-3 mr-1.5"></i>
                           Fr. Johnson
                         </div>
-                        <div class="mt-1 flex items-center text-xs text-indigo-600 dark:text-indigo-300">
+                        <div class="mt-1.5 flex items-center text-xs text-gray-500 dark:text-gray-400">
                           <i data-feather="map-pin" class="h-3 w-3 mr-1.5"></i>
                           Raum 105
                         </div>
@@ -350,14 +312,17 @@
                     </td>
                     
                     <!-- Mittwoch, 2. Stunde -->
-                    <td class="p-2">
-                      <div class="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/10 dark:to-green-900/20 border border-green-200 dark:border-green-900/30 rounded-lg p-3 transform transition-all duration-200 hover:scale-105 hover:shadow-md">
-                        <h3 class="font-semibold text-green-800 dark:text-green-400">Chemie</h3>
-                        <div class="mt-1.5 flex items-center text-xs text-green-600 dark:text-green-300">
+                    <td class="p-2 transition-colors hover:bg-gray-50 dark:hover:bg-gray-700/20">
+                      <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-3 hover:shadow-md transition-shadow duration-300">
+                        <h3 class="font-medium text-gray-900 dark:text-white flex items-center justify-between">
+                          <span>Chemie</span>
+                          <span class="bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 text-xs px-1.5 py-0.5 rounded">Ch</span>
+                        </h3>
+                        <div class="mt-2 flex items-center text-xs text-gray-500 dark:text-gray-400">
                           <i data-feather="user" class="h-3 w-3 mr-1.5"></i>
                           Hr. Bauer
                         </div>
-                        <div class="mt-1 flex items-center text-xs text-green-600 dark:text-green-300">
+                        <div class="mt-1.5 flex items-center text-xs text-gray-500 dark:text-gray-400">
                           <i data-feather="map-pin" class="h-3 w-3 mr-1.5"></i>
                           Raum 305
                         </div>
@@ -365,14 +330,17 @@
                     </td>
                     
                     <!-- Donnerstag, 2. Stunde -->
-                    <td class="p-2">
-                      <div class="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/10 dark:to-blue-900/20 border border-blue-200 dark:border-blue-900/30 rounded-lg p-3 transform transition-all duration-200 hover:scale-105 hover:shadow-md">
-                        <h3 class="font-semibold text-blue-800 dark:text-blue-400">Deutsch</h3>
-                        <div class="mt-1.5 flex items-center text-xs text-blue-600 dark:text-blue-300">
+                    <td class="p-2 transition-colors hover:bg-gray-50 dark:hover:bg-gray-700/20">
+                      <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-3 hover:shadow-md transition-shadow duration-300">
+                        <h3 class="font-medium text-gray-900 dark:text-white flex items-center justify-between">
+                          <span>Deutsch</span>
+                          <span class="bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 text-xs px-1.5 py-0.5 rounded">D</span>
+                        </h3>
+                        <div class="mt-2 flex items-center text-xs text-gray-500 dark:text-gray-400">
                           <i data-feather="user" class="h-3 w-3 mr-1.5"></i>
                           Fr. Müller
                         </div>
-                        <div class="mt-1 flex items-center text-xs text-blue-600 dark:text-blue-300">
+                        <div class="mt-1.5 flex items-center text-xs text-gray-500 dark:text-gray-400">
                           <i data-feather="map-pin" class="h-3 w-3 mr-1.5"></i>
                           Raum 201
                         </div>
@@ -380,14 +348,17 @@
                     </td>
                     
                     <!-- Freitag, 2. Stunde -->
-                    <td class="p-2">
-                      <div class="bg-gradient-to-br from-pink-50 to-pink-100 dark:from-pink-900/10 dark:to-pink-900/20 border border-pink-200 dark:border-pink-900/30 rounded-lg p-3 transform transition-all duration-200 hover:scale-105 hover:shadow-md">
-                        <h3 class="font-semibold text-pink-800 dark:text-pink-400">Sport</h3>
-                        <div class="mt-1.5 flex items-center text-xs text-pink-600 dark:text-pink-300">
+                    <td class="p-2 transition-colors hover:bg-gray-50 dark:hover:bg-gray-700/20">
+                      <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-3 hover:shadow-md transition-shadow duration-300">
+                        <h3 class="font-medium text-gray-900 dark:text-white flex items-center justify-between">
+                          <span>Sport</span>
+                          <span class="bg-pink-100 dark:bg-pink-900/30 text-pink-800 dark:text-pink-300 text-xs px-1.5 py-0.5 rounded">Sp</span>
+                        </h3>
+                        <div class="mt-2 flex items-center text-xs text-gray-500 dark:text-gray-400">
                           <i data-feather="user" class="h-3 w-3 mr-1.5"></i>
                           Fr. Schulz
                         </div>
-                        <div class="mt-1 flex items-center text-xs text-pink-600 dark:text-pink-300">
+                        <div class="mt-1.5 flex items-center text-xs text-gray-500 dark:text-gray-400">
                           <i data-feather="map-pin" class="h-3 w-3 mr-1.5"></i>
                           Sporthalle
                         </div>
@@ -396,11 +367,11 @@
                   </tr>
                   
                   <!-- 15-Minuten Pause -->
-                  <tr class="bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-700/30 dark:to-gray-700/50">
-                    <td class="px-4 py-1.5 whitespace-nowrap text-sm font-medium text-gray-500 dark:text-gray-400">
+                  <tr class="bg-gray-50 dark:bg-gray-700/30">
+                    <td class="px-4 py-2 whitespace-nowrap text-sm font-medium text-gray-500 dark:text-gray-400">
                       09:30 - 09:45
                     </td>
-                    <td colspan="5" class="px-4 py-1.5 text-sm text-gray-500 dark:text-gray-400">
+                    <td colspan="5" class="px-4 py-2 text-sm text-gray-500 dark:text-gray-400">
                       <div class="flex items-center justify-center">
                         <i data-feather="coffee" class="h-4 w-4 mr-2"></i>
                         Pause
@@ -410,28 +381,35 @@
                   
                   <!-- 3. Stunde und 4. Stunde -->
                   <tr>
-                    <td class="px-4 py-2 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white bg-gray-50 dark:bg-gray-700/20">
-                      <div>09:45</div>
-                      <div>10:30</div>
-                      <div class="mt-1 text-xs font-semibold text-gray-500 dark:text-gray-400">3. Stunde</div>
+                    <td class="px-4 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white bg-gray-50 dark:bg-gray-700/20">
+                      <div class="flex flex-col items-center">
+                        <span class="text-xs text-gray-500 dark:text-gray-400">3./4. Stunde</span>
+                        <span class="font-medium mt-1">09:45</span>
+                        <span class="text-xs">-</span>
+                        <span class="font-medium">11:15</span>
+                      </div>
                     </td>
                     
                     <!-- Montag, 3.+4. Stunde (Doppelstunde) -->
-                    <td class="p-0" rowspan="2">
-                      <div class="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/10 dark:to-green-900/20 border-2 border-amber-300 dark:border-amber-700 rounded-lg p-3 transform transition-all duration-200 hover:scale-105 hover:shadow-md h-full mx-2 relative">
-                        <span class="absolute top-3 right-3 bg-amber-100 dark:bg-amber-900/50 text-amber-800 dark:text-amber-200 text-xs px-2 py-1 rounded-lg shadow-sm">
+                    <td class="p-2 transition-colors hover:bg-gray-50 dark:hover:bg-gray-700/20">
+                      <div class="bg-white dark:bg-gray-800 border-2 border-amber-300 dark:border-amber-700 rounded-lg p-3 hover:shadow-md transition-shadow duration-300 relative">
+                        <span class="absolute top-2 right-2 text-xs font-medium bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-400 px-1.5 py-0.5 rounded-full flex items-center">
+                          <i data-feather="clock" class="h-3 w-3 mr-1"></i>
                           Doppelstunde
                         </span>
-                        <h3 class="font-semibold text-green-800 dark:text-green-400 mt-5">Biologie</h3>
-                        <div class="mt-1.5 flex items-center text-xs text-green-600 dark:text-green-300">
+                        <h3 class="font-medium text-gray-900 dark:text-white flex items-center mt-6">
+                          <span>Biologie</span>
+                          <span class="ml-2 bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 text-xs px-1.5 py-0.5 rounded">Bio</span>
+                        </h3>
+                        <div class="mt-2 flex items-center text-xs text-gray-500 dark:text-gray-400">
                           <i data-feather="user" class="h-3 w-3 mr-1.5"></i>
                           Fr. Weber
                         </div>
-                        <div class="mt-1 flex items-center text-xs text-green-600 dark:text-green-300">
+                        <div class="mt-1.5 flex items-center text-xs text-gray-500 dark:text-gray-400">
                           <i data-feather="map-pin" class="h-3 w-3 mr-1.5"></i>
                           Raum 302
                         </div>
-                        <div class="mt-3 bg-green-200/80 dark:bg-green-900/50 p-2 rounded-lg text-xs text-green-700 dark:text-green-300 flex items-center shadow-sm">
+                        <div class="mt-3 flex items-center px-2 py-1 rounded-md text-xs bg-green-100 dark:bg-green-900/50 text-green-800 dark:text-green-300">
                           <i data-feather="file-text" class="h-3 w-3 mr-1.5"></i>
                           Klausur: Genetik und Evolution
                         </div>
@@ -439,21 +417,25 @@
                     </td>
                     
                     <!-- Dienstag, 3.+4. Stunde (Doppelstunde) -->
-                    <td class="p-0" rowspan="2">
-                      <div class="bg-gradient-to-br from-amber-50 to-amber-100 dark:from-amber-900/10 dark:to-amber-900/20 border-2 border-amber-300 dark:border-amber-700 rounded-lg p-3 transform transition-all duration-200 hover:scale-105 hover:shadow-md h-full mx-2 relative">
-                        <span class="absolute top-3 right-3 bg-amber-100 dark:bg-amber-900/50 text-amber-800 dark:text-amber-200 text-xs px-2 py-1 rounded-lg shadow-sm">
+                    <td class="p-2 transition-colors hover:bg-gray-50 dark:hover:bg-gray-700/20">
+                      <div class="bg-white dark:bg-gray-800 border-2 border-amber-300 dark:border-amber-700 rounded-lg p-3 hover:shadow-md transition-shadow duration-300 relative">
+                        <span class="absolute top-2 right-2 text-xs font-medium bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-400 px-1.5 py-0.5 rounded-full flex items-center">
+                          <i data-feather="clock" class="h-3 w-3 mr-1"></i>
                           Doppelstunde
                         </span>
-                        <h3 class="font-semibold text-amber-800 dark:text-amber-400 mt-5">Mathematik</h3>
-                        <div class="mt-1.5 flex items-center text-xs text-amber-600 dark:text-amber-300">
+                        <h3 class="font-medium text-gray-900 dark:text-white flex items-center mt-6">
+                          <span>Mathematik</span>
+                          <span class="ml-2 bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-300 text-xs px-1.5 py-0.5 rounded">M</span>
+                        </h3>
+                        <div class="mt-2 flex items-center text-xs text-gray-500 dark:text-gray-400">
                           <i data-feather="user" class="h-3 w-3 mr-1.5"></i>
                           Hr. Schmidt
                         </div>
-                        <div class="mt-1 flex items-center text-xs text-amber-600 dark:text-amber-300">
+                        <div class="mt-1.5 flex items-center text-xs text-gray-500 dark:text-gray-400">
                           <i data-feather="map-pin" class="h-3 w-3 mr-1.5"></i>
                           Raum 204
                         </div>
-                        <div class="mt-3 bg-amber-200/80 dark:bg-amber-900/50 p-2 rounded-lg text-xs text-amber-700 dark:text-amber-300 flex items-center shadow-sm">
+                        <div class="mt-3 flex items-center px-2 py-1 rounded-md text-xs text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700">
                           <i data-feather="book-open" class="h-3 w-3 mr-1.5"></i>
                           Algebra und Funktionen
                         </div>
@@ -461,21 +443,25 @@
                     </td>
                     
                     <!-- Mittwoch, 3.+4. Stunde (Doppelstunde) -->
-                    <td class="p-0" rowspan="2">
-                      <div class="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/10 dark:to-blue-900/20 border-2 border-amber-300 dark:border-amber-700 rounded-lg p-3 transform transition-all duration-200 hover:scale-105 hover:shadow-md h-full mx-2 relative">
-                        <span class="absolute top-3 right-3 bg-amber-100 dark:bg-amber-900/50 text-amber-800 dark:text-amber-200 text-xs px-2 py-1 rounded-lg shadow-sm">
+                    <td class="p-2 transition-colors hover:bg-gray-50 dark:hover:bg-gray-700/20">
+                      <div class="bg-white dark:bg-gray-800 border-2 border-amber-300 dark:border-amber-700 rounded-lg p-3 hover:shadow-md transition-shadow duration-300 relative">
+                        <span class="absolute top-2 right-2 text-xs font-medium bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-400 px-1.5 py-0.5 rounded-full flex items-center">
+                          <i data-feather="clock" class="h-3 w-3 mr-1"></i>
                           Doppelstunde
                         </span>
-                        <h3 class="font-semibold text-blue-800 dark:text-blue-400 mt-5">Deutsch</h3>
-                        <div class="mt-1.5 flex items-center text-xs text-blue-600 dark:text-blue-300">
+                        <h3 class="font-medium text-gray-900 dark:text-white flex items-center mt-6">
+                          <span>Deutsch</span>
+                          <span class="ml-2 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 text-xs px-1.5 py-0.5 rounded">D</span>
+                        </h3>
+                        <div class="mt-2 flex items-center text-xs text-gray-500 dark:text-gray-400">
                           <i data-feather="user" class="h-3 w-3 mr-1.5"></i>
                           Fr. Müller
                         </div>
-                        <div class="mt-1 flex items-center text-xs text-blue-600 dark:text-blue-300">
+                        <div class="mt-1.5 flex items-center text-xs text-gray-500 dark:text-gray-400">
                           <i data-feather="map-pin" class="h-3 w-3 mr-1.5"></i>
                           Raum 201
                         </div>
-                        <div class="mt-3 bg-blue-200/80 dark:bg-blue-900/50 p-2 rounded-lg text-xs text-blue-700 dark:text-blue-300 flex items-center shadow-sm">
+                        <div class="mt-3 flex items-center px-2 py-1 rounded-md text-xs text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700">
                           <i data-feather="book-open" class="h-3 w-3 mr-1.5"></i>
                           Literatureanalyse
                         </div>
@@ -483,21 +469,25 @@
                     </td>
                     
                     <!-- Donnerstag, 3.+4. Stunde (Doppelstunde) -->
-                    <td class="p-0" rowspan="2">
-                      <div class="bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-900/10 dark:to-purple-900/20 border-2 border-amber-300 dark:border-amber-700 rounded-lg p-3 transform transition-all duration-200 hover:scale-105 hover:shadow-md h-full mx-2 relative">
-                        <span class="absolute top-3 right-3 bg-amber-100 dark:bg-amber-900/50 text-amber-800 dark:text-amber-200 text-xs px-2 py-1 rounded-lg shadow-sm">
+                    <td class="p-2 transition-colors hover:bg-gray-50 dark:hover:bg-gray-700/20">
+                      <div class="bg-white dark:bg-gray-800 border-2 border-amber-300 dark:border-amber-700 rounded-lg p-3 hover:shadow-md transition-shadow duration-300 relative">
+                        <span class="absolute top-2 right-2 text-xs font-medium bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-400 px-1.5 py-0.5 rounded-full flex items-center">
+                          <i data-feather="clock" class="h-3 w-3 mr-1"></i>
                           Doppelstunde
                         </span>
-                        <h3 class="font-semibold text-purple-800 dark:text-purple-400 mt-5">Geschichte</h3>
-                        <div class="mt-1.5 flex items-center text-xs text-purple-600 dark:text-purple-300">
+                        <h3 class="font-medium text-gray-900 dark:text-white flex items-center mt-6">
+                          <span>Geschichte</span>
+                          <span class="ml-2 bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-300 text-xs px-1.5 py-0.5 rounded">Ge</span>
+                        </h3>
+                        <div class="mt-2 flex items-center text-xs text-gray-500 dark:text-gray-400">
                           <i data-feather="user" class="h-3 w-3 mr-1.5"></i>
                           Hr. Fischer
                         </div>
-                        <div class="mt-1 flex items-center text-xs text-purple-600 dark:text-purple-300">
+                        <div class="mt-1.5 flex items-center text-xs text-gray-500 dark:text-gray-400">
                           <i data-feather="map-pin" class="h-3 w-3 mr-1.5"></i>
                           Raum 210
                         </div>
-                        <div class="mt-3 bg-purple-200/80 dark:bg-purple-900/50 p-2 rounded-lg text-xs text-purple-700 dark:text-purple-300 flex items-center shadow-sm">
+                        <div class="mt-3 flex items-center px-2 py-1 rounded-md text-xs text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700">
                           <i data-feather="book-open" class="h-3 w-3 mr-1.5"></i>
                           Mittelalter in Europa
                         </div>
@@ -505,21 +495,25 @@
                     </td>
                     
                     <!-- Freitag, 3. und 4. Stunde (Doppelstunde) -->
-                    <td class="p-0" rowspan="2">
-                      <div class="bg-gradient-to-br from-indigo-50 to-indigo-100 dark:from-indigo-900/10 dark:to-indigo-900/20 border-2 border-amber-300 dark:border-amber-700 rounded-lg p-3 transform transition-all duration-200 hover:scale-105 hover:shadow-md h-full mx-2 relative">
-                        <span class="absolute top-3 right-3 bg-amber-100 dark:bg-amber-900/50 text-amber-800 dark:text-amber-200 text-xs px-2 py-1 rounded-lg shadow-sm">
+                    <td class="p-2 transition-colors hover:bg-gray-50 dark:hover:bg-gray-700/20">
+                      <div class="bg-white dark:bg-gray-800 border-2 border-amber-300 dark:border-amber-700 rounded-lg p-3 hover:shadow-md transition-shadow duration-300 relative">
+                        <span class="absolute top-2 right-2 text-xs font-medium bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-400 px-1.5 py-0.5 rounded-full flex items-center">
+                          <i data-feather="clock" class="h-3 w-3 mr-1"></i>
                           Doppelstunde
                         </span>
-                        <h3 class="font-semibold text-indigo-800 dark:text-indigo-400 mt-5">Englisch</h3>
-                        <div class="mt-1.5 flex items-center text-xs text-indigo-600 dark:text-indigo-300">
+                        <h3 class="font-medium text-gray-900 dark:text-white flex items-center mt-6">
+                          <span>Englisch</span>
+                          <span class="ml-2 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-800 dark:text-indigo-300 text-xs px-1.5 py-0.5 rounded">E</span>
+                        </h3>
+                        <div class="mt-2 flex items-center text-xs text-gray-500 dark:text-gray-400">
                           <i data-feather="user" class="h-3 w-3 mr-1.5"></i>
                           Fr. Johnson
                         </div>
-                        <div class="mt-1 flex items-center text-xs text-indigo-600 dark:text-indigo-300">
+                        <div class="mt-1.5 flex items-center text-xs text-gray-500 dark:text-gray-400">
                           <i data-feather="map-pin" class="h-3 w-3 mr-1.5"></i>
                           Raum 105
                         </div>
-                        <div class="mt-3 bg-indigo-200/80 dark:bg-indigo-900/50 p-2 rounded-lg text-xs text-indigo-700 dark:text-indigo-300 flex items-center shadow-sm">
+                        <div class="mt-3 flex items-center px-2 py-1 rounded-md text-xs text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700">
                           <i data-feather="book-open" class="h-3 w-3 mr-1.5"></i>
                           Lektüre: "The Great Gatsby"
                         </div>
@@ -527,180 +521,149 @@
                     </td>
                   </tr>
                   
-                  <!-- 4. Stunde (ohne horizontale Trennlinie) -->
-                  <tr class="border-t-0">
-                    <td class="px-4 py-2 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white bg-gray-50 dark:bg-gray-700/20">
-                      <div>10:30</div>
-                      <div>11:15</div>
-                      <div class="mt-1 text-xs font-semibold text-gray-500 dark:text-gray-400">4. Stunde</div>
-                    </td>
-                    
-                    <!-- Die restlichen TD-Tags der 4. Stunde sind nicht mehr nötig, da wir rowspan="2" für alle Tage verwenden -->
-                  </tr>
-                  
                   <!-- 1-Stunden Mittagspause -->
-                  <tr class="bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-700/30 dark:to-gray-700/50">
+                  <tr class="bg-gray-50 dark:bg-gray-700/30">
                     <td class="px-4 py-2 whitespace-nowrap text-sm font-medium text-gray-500 dark:text-gray-400">
                       11:15 - 12:15
                     </td>
                     <td colspan="5" class="px-4 py-2 text-sm text-gray-500 dark:text-gray-400">
                       <div class="flex items-center justify-center">
-                        <i data-feather="gift" class="h-4 w-4 mr-2"></i>
+                        <i data-feather="coffee" class="h-4 w-4 mr-2"></i>
                         Mittagspause
                       </div>
                     </td>
                   </tr>
                   
-                  <!-- 5. und 6. Stunde -->
-                  <tr>
-                    <td class="px-4 py-2 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white bg-gray-50 dark:bg-gray-700/20">
-                      <div>12:15</div>
-                      <div>13:00</div>
-                      <div class="mt-1 text-xs font-semibold text-gray-500 dark:text-gray-400">5. Stunde</div>
-                    </td>
-                    
-                    <!-- Montag, 5.+6. Stunde (Doppelstunde Physik) -->
-                    <td class="p-0" rowspan="2">
-                      <div class="bg-gradient-to-br from-cyan-50 to-cyan-100 dark:from-cyan-900/10 dark:to-cyan-900/20 border-2 border-amber-300 dark:border-amber-700 rounded-lg p-3 transform transition-all duration-200 hover:scale-105 hover:shadow-md h-full mx-2 relative">
-                        <span class="absolute top-3 right-3 bg-amber-100 dark:bg-amber-900/50 text-amber-800 dark:text-amber-200 text-xs px-2 py-1 rounded-lg shadow-sm">
-                          Doppelstunde
-                        </span>
-                        <h3 class="font-semibold text-cyan-800 dark:text-cyan-400 mt-5">Physik</h3>
-                        <div class="mt-1.5 flex items-center text-xs text-cyan-600 dark:text-cyan-300">
-                          <i data-feather="user" class="h-3 w-3 mr-1.5"></i>
-                          Hr. Bauer
-                        </div>
-                        <div class="mt-1 flex items-center text-xs text-cyan-600 dark:text-cyan-300">
-                          <i data-feather="map-pin" class="h-3 w-3 mr-1.5"></i>
-                          Raum 310
-                        </div>
-                        <div class="mt-3 bg-cyan-200/80 dark:bg-cyan-900/50 p-2 rounded-lg text-xs text-cyan-700 dark:text-cyan-300 flex items-center shadow-sm">
-                          <i data-feather="activity" class="h-3 w-3 mr-1.5"></i>
-                          Praktikum: Elektrische Schaltungen
-                        </div>
-                      </div>
-                    </td>
-                    
-                    <!-- Dienstag, 5.+6. Stunde (Doppelstunde) -->
-                    <td class="p-0" rowspan="2">
-                      <div class="bg-gradient-to-br from-yellow-50 to-yellow-100 dark:from-yellow-900/10 dark:to-yellow-900/20 border-2 border-amber-300 dark:border-amber-700 rounded-lg p-3 transform transition-all duration-200 hover:scale-105 hover:shadow-md h-full mx-2 relative">
-                        <span class="absolute top-3 right-3 bg-amber-100 dark:bg-amber-900/50 text-amber-800 dark:text-amber-200 text-xs px-2 py-1 rounded-lg shadow-sm">
-                          Doppelstunde
-                        </span>
-                        <h3 class="font-semibold text-yellow-800 dark:text-yellow-400 mt-5">Informatik</h3>
-                        <div class="mt-1.5 flex items-center text-xs text-yellow-600 dark:text-yellow-300">
-                          <i data-feather="user" class="h-3 w-3 mr-1.5"></i>
-                          Hr. Klein
-                        </div>
-                        <div class="mt-1 flex items-center text-xs text-yellow-600 dark:text-yellow-300">
-                          <i data-feather="map-pin" class="h-3 w-3 mr-1.5"></i>
-                          Raum 401
-                        </div>
-                        <div class="mt-3 bg-yellow-200/80 dark:bg-yellow-900/50 p-2 rounded-lg text-xs text-yellow-700 dark:text-yellow-300 flex items-center shadow-sm">
-                          <i data-feather="code" class="h-3 w-3 mr-1.5"></i>
-                          Programmierung: Algorithmen
-                        </div>
-                      </div>
-                    </td>
-                    
-                    <!-- Mittwoch, 5. Stunde (Einzelstunde) -->
-                    <td class="p-2">
-                      <div class="bg-gradient-to-br from-pink-50 to-pink-100 dark:from-pink-900/10 dark:to-pink-900/20 border border-pink-200 dark:border-pink-900/30 rounded-lg p-3 transform transition-all duration-200 hover:scale-105 hover:shadow-md">
-                        <h3 class="font-semibold text-pink-800 dark:text-pink-400">Sport</h3>
-                        <div class="mt-1.5 flex items-center text-xs text-pink-600 dark:text-pink-300">
-                          <i data-feather="user" class="h-3 w-3 mr-1.5"></i>
-                          Fr. Schulz
-                        </div>
-                        <div class="mt-1 flex items-center text-xs text-pink-600 dark:text-pink-300">
-                          <i data-feather="map-pin" class="h-3 w-3 mr-1.5"></i>
-                          Sporthalle
-                        </div>
-                      </div>
-                    </td>
-                    
-                    <!-- Donnerstag, 5.+6. Stunde (Doppelstunde Physik) -->
-                    <td class="p-0" rowspan="2">
-                      <div class="bg-gradient-to-br from-cyan-50 to-cyan-100 dark:from-cyan-900/10 dark:to-cyan-900/20 border-2 border-amber-300 dark:border-amber-700 rounded-lg p-3 transform transition-all duration-200 hover:scale-105 hover:shadow-md h-full mx-2 relative">
-                        <span class="absolute top-3 right-3 bg-amber-100 dark:bg-amber-900/50 text-amber-800 dark:text-amber-200 text-xs px-2 py-1 rounded-lg shadow-sm">
-                          Doppelstunde
-                        </span>
-                        <h3 class="font-semibold text-cyan-800 dark:text-cyan-400 mt-5">Physik</h3>
-                        <div class="mt-1.5 flex items-center text-xs text-cyan-600 dark:text-cyan-300">
-                          <i data-feather="user" class="h-3 w-3 mr-1.5"></i>
-                          Hr. Bauer
-                        </div>
-                        <div class="mt-1 flex items-center text-xs text-cyan-600 dark:text-cyan-300">
-                          <i data-feather="map-pin" class="h-3 w-3 mr-1.5"></i>
-                          Raum 310
-                        </div>
-                        <div class="mt-3 bg-cyan-200/80 dark:bg-cyan-900/50 p-2 rounded-lg text-xs text-cyan-700 dark:text-cyan-300 flex items-center shadow-sm">
-                          <i data-feather="activity" class="h-3 w-3 mr-1.5"></i>
-                          Optik und Wellenlehre
-                        </div>
-                      </div>
-                    </td>
-                    
-                    <!-- Freitag, 5.+6. Stunde (Doppelstunde mit Vertretung) -->
-                    <td class="p-0" rowspan="2">
-                      <div class="bg-gradient-to-br from-yellow-50 to-yellow-100 dark:from-yellow-900/10 dark:to-yellow-900/20 border-2 border-amber-300 dark:border-amber-700 border-dashed rounded-lg p-3 transform transition-all duration-200 hover:scale-105 hover:shadow-md h-full mx-2 relative">
-                        <span class="absolute -top-1 -right-1 flex h-5 w-5">
-                          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-30"></span>
-                          <span class="relative inline-flex rounded-full h-5 w-5 bg-red-500 text-white text-xs items-center justify-center">
-                            <i data-feather="alert-circle" class="h-3 w-3"></i>
-                          </span>
-                        </span>
-                        <span class="absolute top-3 right-3 bg-amber-100 dark:bg-amber-900/50 text-amber-800 dark:text-amber-200 text-xs px-2 py-1 rounded-lg shadow-sm">
-                          Doppelstunde
-                        </span>
-                        <h3 class="font-semibold text-yellow-800 dark:text-yellow-400 mt-5">Informatik</h3>
-                        <div class="mt-1.5 flex items-center text-xs text-yellow-600 dark:text-yellow-300">
-                          <i data-feather="user" class="h-3 w-3 mr-1.5"></i>
-                          <span class="line-through mr-1">Hr. Klein</span>
-                          <span>Hr. Weber</span>
-                        </div>
-                        <div class="mt-1 flex items-center text-xs text-yellow-600 dark:text-yellow-300">
-                          <i data-feather="map-pin" class="h-3 w-3 mr-1.5"></i>
-                          Raum 401
-                        </div>
-                        <div class="mt-3 bg-yellow-200/80 dark:bg-yellow-900/50 p-2 rounded-lg text-xs text-yellow-700 dark:text-yellow-300 flex items-center shadow-sm">
-                          <i data-feather="code" class="h-3 w-3 mr-1.5"></i>
-                          Projektarbeit
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                  
-                  <!-- 6. Stunde (ohne horizontale Trennlinie) -->
-                  <tr class="border-t-0">
-                    <td class="px-4 py-2 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white bg-gray-50 dark:bg-gray-700/20">
-                      <div>13:00</div>
-                      <div>13:45</div>
-                      <div class="mt-1 text-xs font-semibold text-gray-500 dark:text-gray-400">6. Stunde</div>
-                    </td>
-                    
-                    <!-- Mittwoch, 6. Stunde (Einzelstunde) -->
-                    <td class="p-2">
-                      <div class="bg-gradient-to-br from-pink-50 to-pink-100 dark:from-pink-900/10 dark:to-pink-900/20 border border-pink-200 dark:border-pink-900/30 rounded-lg p-3 transform transition-all duration-200 hover:scale-105 hover:shadow-md">
-                        <h3 class="font-semibold text-pink-800 dark:text-pink-400">Sport</h3>
-                        <div class="mt-1.5 flex items-center text-xs text-pink-600 dark:text-pink-300">
-                          <i data-feather="user" class="h-3 w-3 mr-1.5"></i>
-                          Fr. Schulz
-                        </div>
-                        <div class="mt-1 flex items-center text-xs text-pink-600 dark:text-pink-300">
-                          <i data-feather="map-pin" class="h-3 w-3 mr-1.5"></i>
-                          Sporthalle
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
+                  <!-- Weitere Stunden... -->
                 </tbody>
               </table>
             </div>
           </div>
         </div>
+
+        <!-- Mobile Stundenplan -->
+        <div class="md:hidden">
+          <div class="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden">
+            <div class="px-4 py-3 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-700/40">
+              <div class="flex justify-between items-center">
+                <button class="p-1.5 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+                  <i data-feather="chevron-left" class="h-5 w-5 text-gray-600 dark:text-gray-400"></i>
+                </button>
+                <h2 class="text-lg font-medium text-gray-900 dark:text-white">
+                  <span>Montag</span>
+                  <span class="ml-1 text-amber-500 dark:text-amber-400">08.04</span>
+                </h2>
+                <button class="p-1.5 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+                  <i data-feather="chevron-right" class="h-5 w-5 text-gray-600 dark:text-gray-400"></i>
+                </button>
+              </div>
+            </div>
+            
+            <ul class="divide-y divide-gray-200 dark:divide-gray-700">
+              <!-- Stunde 1 -->
+              <li class="px-4 py-4 hover:bg-gray-50 dark:hover:bg-gray-700/40">
+                <div class="flex justify-between mb-2">
+                  <div class="flex items-center">
+                    <div class="bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 text-xs font-medium px-1.5 py-0.5 rounded flex items-center mr-2">
+                      <span>D</span>
+                    </div>
+                    <span class="text-base font-medium text-gray-900 dark:text-white">Deutsch</span>
+                  </div>
+                  <div class="flex flex-col items-end">
+                    <span class="text-xs px-2 py-1 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-400">1. Stunde</span>
+                    <span class="text-xs text-gray-500 dark:text-gray-400 mt-1">08:00 - 08:45</span>
+                  </div>
+                </div>
+                <div class="flex items-center text-sm text-gray-500 dark:text-gray-400 mt-1">
+                  <i data-feather="user" class="h-4 w-4 mr-1.5 text-gray-400 dark:text-gray-500"></i>
+                  Fr. Müller
+                </div>
+                <div class="flex items-center text-sm text-gray-500 dark:text-gray-400 mt-1">
+                  <i data-feather="map-pin" class="h-4 w-4 mr-1.5 text-gray-400 dark:text-gray-500"></i>
+                  Raum 201
+                </div>
+              </li>
+              
+              <!-- Stunde 2 -->
+              <li class="px-4 py-4 hover:bg-gray-50 dark:hover:bg-gray-700/40">
+                <div class="flex justify-between mb-2">
+                  <div class="flex items-center">
+                    <div class="bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-300 text-xs font-medium px-1.5 py-0.5 rounded flex items-center mr-2">
+                      <span>M</span>
+                    </div>
+                    <span class="text-base font-medium text-gray-900 dark:text-white">Mathematik</span>
+                  </div>
+                  <div class="flex flex-col items-end">
+                    <span class="text-xs px-2 py-1 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-400">2. Stunde</span>
+                    <span class="text-xs text-gray-500 dark:text-gray-400 mt-1">08:45 - 09:30</span>
+                  </div>
+                </div>
+                <div class="flex items-center text-sm text-gray-500 dark:text-gray-400 mt-1">
+                  <i data-feather="user" class="h-4 w-4 mr-1.5 text-gray-400 dark:text-gray-500"></i>
+                  Hr. Schmidt
+                </div>
+                <div class="flex items-center text-sm text-gray-500 dark:text-gray-400 mt-1">
+                  <i data-feather="map-pin" class="h-4 w-4 mr-1.5 text-gray-400 dark:text-gray-500"></i>
+                  Raum 204
+                </div>
+              </li>
+              
+              <!-- Kurze Pause -->
+              <li class="px-4 py-2 bg-gray-50 dark:bg-gray-700/40 flex justify-center items-center">
+                <i data-feather="coffee" class="h-4 w-4 mr-2 text-gray-500 dark:text-gray-400"></i>
+                <span class="text-sm font-medium text-gray-500 dark:text-gray-400">Pause (09:30 - 09:45)</span>
+              </li>
+              
+              <!-- Stunde 3 und 4 als Doppelstunde -->
+              <li class="px-4 py-4 hover:bg-gray-50 dark:hover:bg-gray-700/40 border-l-4 border-amber-400 dark:border-amber-500">
+                <div class="flex justify-between mb-2">
+                  <div class="flex items-center">
+                    <div class="bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 text-xs font-medium px-1.5 py-0.5 rounded flex items-center mr-2">
+                      <span>Bio</span>
+                    </div>
+                    <span class="text-base font-medium text-gray-900 dark:text-white">Biologie</span>
+                  </div>
+                  <div class="flex flex-col items-end">
+                    <span class="text-xs px-2 py-1 rounded-full bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-400">
+                      <i data-feather="clock" class="h-3 w-3 mr-1 inline"></i>
+                      Doppelstunde
+                    </span>
+                    <span class="text-xs text-gray-500 dark:text-gray-400 mt-1">09:45 - 11:15</span>
+                  </div>
+                </div>
+                <div class="flex items-center text-sm text-gray-500 dark:text-gray-400 mt-1">
+                  <i data-feather="user" class="h-4 w-4 mr-1.5 text-gray-400 dark:text-gray-500"></i>
+                  Fr. Weber
+                </div>
+                <div class="flex items-center text-sm text-gray-500 dark:text-gray-400 mt-1">
+                  <i data-feather="map-pin" class="h-4 w-4 mr-1.5 text-gray-400 dark:text-gray-500"></i>
+                  Raum 302
+                </div>
+                <div class="mt-2 flex items-center px-2.5 py-1.5 rounded-md bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 text-xs">
+                  <i data-feather="file-text" class="h-4 w-4 mr-1.5"></i>
+                  <span>Klausur: Genetik und Evolution</span>
+                </div>
+              </li>
+              
+              <!-- Mittagspause -->
+              <li class="px-4 py-2 bg-gray-50 dark:bg-gray-700/40 flex justify-center items-center">
+                <i data-feather="coffee" class="h-4 w-4 mr-2 text-gray-500 dark:text-gray-400"></i>
+                <span class="text-sm font-medium text-gray-500 dark:text-gray-400">Mittagspause (11:15 - 12:15)</span>
+              </li>
+              
+              <!-- Weitere Stunden... -->
+              <li class="px-4 py-4 text-center">
+                <a href="#" class="text-amber-600 dark:text-amber-400 text-sm font-medium hover:text-amber-700 dark:hover:text-amber-300 transition-colors flex items-center justify-center">
+                  <i data-feather="chevron-down" class="h-4 w-4 mr-1"></i>
+                  Weitere Stunden anzeigen
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
         
         <!-- Vertretungen und Änderungen -->
-        <div class="mt-8 px-4 sm:px-0">
+        <div class="mt-8">
           <h2 class="text-lg font-medium text-gray-900 dark:text-white mb-4 flex items-center">
             <div class="flex-shrink-0 bg-red-100 dark:bg-red-900/30 rounded-full p-1.5 mr-2.5 shadow-sm">
               <i data-feather="repeat" class="h-5 w-5 text-red-500 dark:text-red-400"></i>
@@ -708,10 +671,10 @@
             Vertretungen und Änderungen
           </h2>
           
-          <div class="bg-white dark:bg-gray-800 shadow-lg rounded-lg overflow-hidden transition-colors duration-200">
-            <div class="overflow-hidden overflow-x-auto">
+          <div class="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden">
+            <div class="overflow-x-auto">
               <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                <thead class="bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-700/40 dark:to-gray-700/60">
+                <thead class="bg-gray-50 dark:bg-gray-700/40">
                   <tr>
                     <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                       Tag
@@ -731,7 +694,7 @@
                   </tr>
                 </thead>
                 <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                  <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/40 transition-colors duration-150">
+                  <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/40">
                     <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
                       Montag, 08.04
                     </td>
@@ -750,26 +713,7 @@
                       Genetik und Evolution
                     </td>
                   </tr>
-                  <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/40 transition-colors duration-150">
-                    <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
-                      Mittwoch, 10.04
-                    </td>
-                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                      4.
-                    </td>
-                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                      Englisch
-                    </td>
-                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                      <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-400">
-                        Entfällt
-                      </span>
-                    </td>
-                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-400">
-                      Wegen Lehrerkonferenz
-                    </td>
-                  </tr>
-                  <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/40 transition-colors duration-150">
+                  <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/40">
                     <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
                       Donnerstag, 11.04
                     </td>
@@ -788,7 +732,7 @@
                       Fr. Meier vertritt Hr. Schmidt
                     </td>
                   </tr>
-                  <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/40 transition-colors duration-150">
+                  <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/40">
                     <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
                       Freitag, 12.04
                     </td>
@@ -807,25 +751,6 @@
                       Raum 112 statt Raum 110
                     </td>
                   </tr>
-                  <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/40 transition-colors duration-150">
-                    <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
-                      Freitag, 12.04
-                    </td>
-                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                      5. + 6.
-                    </td>
-                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                      Informatik
-                    </td>
-                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                      <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-400">
-                        Vertretung
-                      </span>
-                    </td>
-                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-400">
-                      Hr. Weber vertritt Hr. Klein
-                    </td>
-                  </tr>
                 </tbody>
               </table>
             </div>
@@ -833,7 +758,7 @@
         </div>
         
         <!-- Bemerkungen -->
-        <div class="mt-8 px-4 sm:px-0">
+        <div class="mt-8">
           <h2 class="text-lg font-medium text-gray-900 dark:text-white mb-4 flex items-center">
             <div class="flex-shrink-0 bg-amber-100 dark:bg-amber-900/30 rounded-full p-1.5 mr-2.5 shadow-sm">
               <i data-feather="info" class="h-5 w-5 text-amber-500 dark:text-amber-400"></i>
@@ -841,9 +766,9 @@
             Bemerkungen zum Stundenplan
           </h2>
           
-          <div class="bg-white dark:bg-gray-800 shadow-lg rounded-lg overflow-hidden transition-colors duration-200">
+          <div class="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden">
             <ul class="divide-y divide-gray-200 dark:divide-gray-700">
-              <li class="px-4 py-4 sm:px-6 hover:bg-gray-50 dark:hover:bg-gray-700/30 transition-colors duration-150">
+              <li class="px-4 py-4 hover:bg-gray-50 dark:hover:bg-gray-700/40">
                 <div class="flex items-start">
                   <div class="flex-shrink-0 bg-yellow-100 dark:bg-yellow-900/30 rounded-full p-1.5 mt-0.5 shadow-sm">
                     <i data-feather="alert-triangle" class="h-5 w-5 text-yellow-600 dark:text-yellow-400"></i>
@@ -857,7 +782,7 @@
                 </div>
               </li>
               
-              <li class="px-4 py-4 sm:px-6 hover:bg-gray-50 dark:hover:bg-gray-700/30 transition-colors duration-150">
+              <li class="px-4 py-4 hover:bg-gray-50 dark:hover:bg-gray-700/40">
                 <div class="flex items-start">
                   <div class="flex-shrink-0 bg-blue-100 dark:bg-blue-900/30 rounded-full p-1.5 mt-0.5 shadow-sm">
                     <i data-feather="calendar" class="h-5 w-5 text-blue-600 dark:text-blue-400"></i>
@@ -870,64 +795,26 @@
                   </div>
                 </div>
               </li>
-              
-              <li class="px-4 py-4 sm:px-6 hover:bg-gray-50 dark:hover:bg-gray-700/30 transition-colors duration-150">
-                <div class="flex items-start">
-                  <div class="flex-shrink-0 bg-green-100 dark:bg-green-900/30 rounded-full p-1.5 mt-0.5 shadow-sm">
-                    <i data-feather="flag" class="h-5 w-5 text-green-600 dark:text-green-400"></i>
-                  </div>
-                  <div class="ml-3.5">
-                    <h3 class="text-sm font-semibold text-gray-900 dark:text-white">Neue Lehrer</h3>
-                    <p class="mt-1.5 text-sm text-gray-500 dark:text-gray-400">
-                      Ab nächster Woche übernimmt Herr Dr. Wagner den Physik-Unterricht. Bitte erscheinen Sie pünktlich zum Unterricht.
-                    </p>
-                  </div>
-                </div>
-              </li>
             </ul>
           </div>
         </div>
       </div>
     </main>
-
-    <footer class="bg-white dark:bg-gray-800 shadow-inner mt-auto">
-      <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
-        <div class="flex flex-col md:flex-row justify-between items-center gap-4">
-          <div class="flex items-center text-gray-500 dark:text-gray-400 text-sm">
-            <img class="h-6 w-auto mr-2" src="/images/logo.png" alt="Schoolnote.eu Logo">
-            <p>&copy; 2023 Schoolnote.eu - Alle Rechte vorbehalten</p>
-          </div>
-          <div class="flex justify-center space-x-6 text-sm text-gray-500 dark:text-gray-400">
-            <a href="/datenschutz" class="hover:text-amber-600 dark:hover:text-amber-400 transition-colors duration-200">Datenschutz</a>
-            <a href="/impressum" class="hover:text-amber-600 dark:hover:text-amber-400 transition-colors duration-200">Impressum</a>
-            <a href="/nutzungsbedingungen" class="hover:text-amber-600 dark:hover:text-amber-400 transition-colors duration-200">Nutzungsbedingungen</a>
-          </div>
-        </div>
-      </div>
-    </footer>
   </div>
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       // Feather Icons initialisieren
-      feather.replace();
-      
-      // Systemeinstellung für Dark Mode übernehmen
-      if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        document.documentElement.classList.add('dark');
-      } else {
-        document.documentElement.classList.remove('dark');
+      if (typeof feather !== 'undefined') {
+        feather.replace();
       }
       
-      // Auf Änderungen der Systemeinstellung reagieren
-      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
-        if (event.matches) {
-          document.documentElement.classList.add('dark');
-        } else {
-          document.documentElement.classList.remove('dark');
-        }
-      });
-
+      // Systemeinstellung für Dark Mode übernehmen
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+      }
+      
       // Wochenauswahl-Dropdown Funktionalität
       const weekSelect = document.getElementById('week-select');
       if (weekSelect) {
@@ -935,7 +822,7 @@
           const selectedWeek = this.value;
           
           // Datum-Anzeigen aktualisieren basierend auf der gewählten Woche
-          let headers = document.querySelectorAll('thead th:not(:first-child)');
+          let headers = document.querySelectorAll('thead th:not(:first-child) span.font-normal');
           let dates = [];
           
           if (selectedWeek === 'current') {
@@ -948,13 +835,18 @@
           
           headers.forEach((header, index) => {
             if (dates[index]) {
-              const weekday = header.innerHTML.split('<br>')[0];
-              header.innerHTML = weekday + '<br><span class="font-normal">' + dates[index] + '</span>';
+              header.textContent = dates[index];
             }
           });
           
+          // Aktualisiere auch den Datumsbereich in der Schnellnavigation
+          const dateRange = document.querySelector('.bg-amber-100.text-amber-800.rounded-md');
+          if (dateRange) {
+            dateRange.textContent = `${dates[0]} - ${dates[4]}`;
+          }
+          
           // Zeige eine Benachrichtigung an
-          showNotification('Stundenplan für die Woche vom ' + dates[0] + ' bis ' + dates[4] + ' geladen.');
+          showToast('Stundenplan für die Woche vom ' + dates[0] + ' bis ' + dates[4] + ' geladen.');
         });
       }
       
@@ -969,186 +861,203 @@
       // Filter-Buttons
       const allSubjectsBtn = document.querySelector('button.bg-amber-100');
       const mainSubjectsBtn = document.querySelector('button.bg-gray-100');
+      const minorSubjectsBtn = document.querySelectorAll('button.bg-gray-100')[1];
       
-      if (allSubjectsBtn && mainSubjectsBtn) {
-        allSubjectsBtn.addEventListener('click', function() {
-          // Alle Fächer aktivieren
-          document.querySelectorAll('td > div').forEach(subject => {
-            subject.closest('td').style.display = '';
-          });
-          
-          // Button-Stile umschalten
-          allSubjectsBtn.classList.remove('bg-gray-100', 'dark:bg-gray-700', 'text-gray-700', 'dark:text-gray-300');
-          allSubjectsBtn.classList.add('bg-amber-100', 'dark:bg-amber-900/30', 'text-amber-800', 'dark:text-amber-400');
+      if (allSubjectsBtn && mainSubjectsBtn && minorSubjectsBtn) {
+        const resetButtons = () => {
+          allSubjectsBtn.classList.remove('bg-amber-100', 'dark:bg-amber-900/30', 'text-amber-800', 'dark:text-amber-400');
+          allSubjectsBtn.classList.add('bg-gray-100', 'dark:bg-gray-700', 'text-gray-700', 'dark:text-gray-300');
           
           mainSubjectsBtn.classList.remove('bg-amber-100', 'dark:bg-amber-900/30', 'text-amber-800', 'dark:text-amber-400');
           mainSubjectsBtn.classList.add('bg-gray-100', 'dark:bg-gray-700', 'text-gray-700', 'dark:text-gray-300');
           
-          showNotification('Zeige alle Fächer an.');
+          minorSubjectsBtn.classList.remove('bg-amber-100', 'dark:bg-amber-900/30', 'text-amber-800', 'dark:text-amber-400');
+          minorSubjectsBtn.classList.add('bg-gray-100', 'dark:bg-gray-700', 'text-gray-700', 'dark:text-gray-300');
+          
+          allSubjectsBtn.setAttribute('aria-pressed', 'false');
+          mainSubjectsBtn.setAttribute('aria-pressed', 'false');
+          minorSubjectsBtn.setAttribute('aria-pressed', 'false');
+        };
+        
+        allSubjectsBtn.addEventListener('click', function() {
+          resetButtons();
+          this.classList.remove('bg-gray-100', 'dark:bg-gray-700', 'text-gray-700', 'dark:text-gray-300');
+          this.classList.add('bg-amber-100', 'dark:bg-amber-900/30', 'text-amber-800', 'dark:text-amber-400');
+          this.setAttribute('aria-pressed', 'true');
+          
+          // Alle Fächer anzeigen
+          document.querySelectorAll('td > div').forEach(subject => {
+            const td = subject.closest('td');
+            if (td) td.style.display = '';
+          });
+          
+          showToast('Zeige alle Fächer an.');
         });
         
         mainSubjectsBtn.addEventListener('click', function() {
-          // Nur Hauptfächer anzeigen (Deutsch, Mathe, Englisch, etc.)
-          const mainSubjects = ['Deutsch', 'Mathematik', 'Englisch', 'Biologie', 'Physik', 'Chemie'];
+          resetButtons();
+          this.classList.remove('bg-gray-100', 'dark:bg-gray-700', 'text-gray-700', 'dark:text-gray-300');
+          this.classList.add('bg-amber-100', 'dark:bg-amber-900/30', 'text-amber-800', 'dark:text-amber-400');
+          this.setAttribute('aria-pressed', 'true');
           
+          // Nur Hauptfächer anzeigen (D, M, E, etc.)
+          const mainSubjects = ['D', 'M', 'E', 'Bio', 'Ch', 'Ph'];
+          filterSubjects(mainSubjects);
+          
+          showToast('Zeige nur Hauptfächer an.');
+        });
+        
+        minorSubjectsBtn.addEventListener('click', function() {
+          resetButtons();
+          this.classList.remove('bg-gray-100', 'dark:bg-gray-700', 'text-gray-700', 'dark:text-gray-300');
+          this.classList.add('bg-amber-100', 'dark:bg-amber-900/30', 'text-amber-800', 'dark:text-amber-400');
+          this.setAttribute('aria-pressed', 'true');
+          
+          // Nur Nebenfächer anzeigen (Ku, Mu, Sp, etc.)
+          const minorSubjects = ['Ku', 'Mu', 'Sp', 'Ge', 'Re'];
+          filterSubjects(minorSubjects);
+          
+          showToast('Zeige nur Nebenfächer an.');
+        });
+        
+        function filterSubjects(targetSubjects) {
           document.querySelectorAll('td > div').forEach(subject => {
-            const subjectName = subject.querySelector('h3')?.textContent;
-            const isMainSubject = mainSubjects.some(main => subjectName?.includes(main));
+            const subjectTag = subject.querySelector('span.rounded:not(.rounded-full)');
+            const isTargetSubject = subjectTag && targetSubjects.some(code => subjectTag.textContent.trim() === code);
             
-            if (isMainSubject) {
-              subject.closest('td').style.display = '';
-            } else {
-              subject.closest('td').style.display = 'none';
-            }
-          });
-          
-          // Button-Stile umschalten
-          mainSubjectsBtn.classList.remove('bg-gray-100', 'dark:bg-gray-700', 'text-gray-700', 'dark:text-gray-300');
-          mainSubjectsBtn.classList.add('bg-amber-100', 'dark:bg-amber-900/30', 'text-amber-800', 'dark:text-amber-400');
-          
-          allSubjectsBtn.classList.remove('bg-amber-100', 'dark:bg-amber-900/30', 'text-amber-800', 'dark:text-amber-400');
-          allSubjectsBtn.classList.add('bg-gray-100', 'dark:bg-gray-700', 'text-gray-700', 'dark:text-gray-300');
-          
-          showNotification('Zeige nur Hauptfächer an.');
-        });
-      }
-      
-      // Filter-Button und Dropdown
-      const filterBtn = document.getElementById('more-filters-btn');
-      if (filterBtn) {
-        // Dropdown-Menü für Filter erstellen
-        const filterMenu = document.createElement('div');
-        filterMenu.className = 'absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white dark:bg-gray-800 ring-1 ring-black ring-opacity-5 z-10 hidden';
-        filterMenu.innerHTML = `
-          <div class="py-1" role="menu" aria-orientation="vertical">
-            <a href="#" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700" role="menuitem">Nur Naturwissenschaften</a>
-            <a href="#" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700" role="menuitem">Nur Sprachen</a>
-            <a href="#" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700" role="menuitem">Ohne Vertretungen</a>
-            <a href="#" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700" role="menuitem">Nach Lehrer filtern</a>
-          </div>
-        `;
-        
-        filterBtn.parentNode.appendChild(filterMenu);
-        
-        // Dropdown ein-/ausblenden
-        filterBtn.addEventListener('click', function(e) {
-          e.stopPropagation();
-          filterMenu.classList.toggle('hidden');
-        });
-        
-        // Klick außerhalb des Dropdowns schließt es
-        document.addEventListener('click', function() {
-          filterMenu.classList.add('hidden');
-        });
-        
-        // Dropdown-Elemente
-        filterMenu.querySelectorAll('a').forEach(item => {
-          item.addEventListener('click', function(e) {
-            e.preventDefault();
-            filterMenu.classList.add('hidden');
-            showNotification('Filter "' + this.textContent + '" angewendet.');
-            
-            // Filter-Logik hier implementieren 
-            // Je nach ausgewähltem Filter
-            const filterName = this.textContent;
-
-            if (filterName === 'Nur Naturwissenschaften') {
-              const sciences = ['Biologie', 'Physik', 'Chemie'];
-              filterSubjects(sciences);
-            } else if (filterName === 'Nur Sprachen') {
-              const languages = ['Deutsch', 'Englisch'];
-              filterSubjects(languages);
-            } else if (filterName === 'Ohne Vertretungen') {
-              document.querySelectorAll('td div.border-dashed').forEach(el => {
-                if (el.closest('td')) {
-                  el.closest('td').style.display = 'none';
-                }
-              });
-            }
-          });
-        });
-
-        // Hilfsfunktion zum Filtern von Fächern
-        function filterSubjects(subjects) {
-          document.querySelectorAll('td > div').forEach(subject => {
-            const subjectName = subject.querySelector('h3')?.textContent;
-            const matches = subjects.some(sub => subjectName?.includes(sub));
-            
-            if (matches) {
-              subject.closest('td').style.display = '';
-            } else {
-              subject.closest('td').style.display = 'none';
-            }
+            const td = subject.closest('td');
+            if (td) td.style.display = isTargetSubject ? '' : 'none';
           });
         }
       }
       
-      // Checkboxen-Funktionalität
-      const showSubstitutionsCheck = document.querySelectorAll('input[type="checkbox"]')[0];
-      const combineDoubleHoursCheck = document.querySelectorAll('input[type="checkbox"]')[1];
+      // Ansichtsumschalter (Wochen-/Tagesansicht)
+      const viewWeekBtn = document.getElementById('view-week');
+      const viewDayBtn = document.getElementById('view-day');
       
-      if (showSubstitutionsCheck) {
-        showSubstitutionsCheck.addEventListener('change', function() {
-          // Vertretungsstunden ein-/ausblenden
-          document.querySelectorAll('td div.border-dashed').forEach(el => {
-            if (el.closest('td')) {
-              el.closest('td').style.display = this.checked ? '' : 'none';
+      if (viewWeekBtn && viewDayBtn) {
+        viewWeekBtn.addEventListener('click', function() {
+          this.classList.add('bg-white', 'dark:bg-gray-800', 'shadow-sm');
+          this.classList.remove('hover:bg-gray-100', 'dark:hover:bg-gray-600');
+          
+          viewDayBtn.classList.remove('bg-white', 'dark:bg-gray-800', 'shadow-sm');
+          viewDayBtn.classList.add('hover:bg-gray-100', 'dark:hover:bg-gray-600');
+          
+          showToast('Wochenansicht aktiviert');
+        });
+        
+        viewDayBtn.addEventListener('click', function() {
+          this.classList.add('bg-white', 'dark:bg-gray-800', 'shadow-sm');
+          this.classList.remove('hover:bg-gray-100', 'dark:hover:bg-gray-600');
+          
+          viewWeekBtn.classList.remove('bg-white', 'dark:bg-gray-800', 'shadow-sm');
+          viewWeekBtn.classList.add('hover:bg-gray-100', 'dark:hover:bg-gray-600');
+          
+          showToast('Tagesansicht aktiviert');
+        });
+      }
+      
+      // Wochennavigation Buttons
+      const prevWeekBtn = document.querySelector('.bg-gray-100.text-gray-700 i[data-feather="arrow-left"]').closest('button');
+      const nextWeekBtn = document.querySelector('.bg-gray-100.text-gray-700 i[data-feather="arrow-right"]').closest('button');
+      
+      if (prevWeekBtn && nextWeekBtn) {
+        const weeks = [
+          {range: '08.04 - 12.04', dates: ['08.04', '09.04', '10.04', '11.04', '12.04']},
+          {range: '15.04 - 19.04', dates: ['15.04', '16.04', '17.04', '18.04', '19.04']},
+          {range: '22.04 - 26.04', dates: ['22.04', '23.04', '24.04', '25.04', '26.04']}
+        ];
+        let currentWeekIndex = 0;
+        
+        prevWeekBtn.addEventListener('click', function() {
+          currentWeekIndex = (currentWeekIndex - 1 + weeks.length) % weeks.length;
+          updateWeekDisplay(currentWeekIndex);
+          
+          // Synchronisiere mit dem Dropdown
+          if (weekSelect) {
+            const options = ['current', 'next', 'after'];
+            weekSelect.value = options[currentWeekIndex];
+          }
+          
+          showToast(`Stundenplan für die Woche vom ${weeks[currentWeekIndex].dates[0]} bis ${weeks[currentWeekIndex].dates[4]} geladen.`);
+        });
+        
+        nextWeekBtn.addEventListener('click', function() {
+          currentWeekIndex = (currentWeekIndex + 1) % weeks.length;
+          updateWeekDisplay(currentWeekIndex);
+          
+          // Synchronisiere mit dem Dropdown
+          if (weekSelect) {
+            const options = ['current', 'next', 'after'];
+            weekSelect.value = options[currentWeekIndex];
+          }
+          
+          showToast(`Stundenplan für die Woche vom ${weeks[currentWeekIndex].dates[0]} bis ${weeks[currentWeekIndex].dates[4]} geladen.`);
+        });
+        
+        function updateWeekDisplay(index) {
+          const dateRange = document.querySelector('.bg-amber-100.text-amber-800.rounded-md');
+          if (dateRange) {
+            dateRange.textContent = weeks[index].range;
+          }
+          
+          // Aktualisiere auch die Tabellen-Header
+          const headers = document.querySelectorAll('thead th:not(:first-child) span.font-normal');
+          headers.forEach((header, i) => {
+            if (weeks[index].dates[i]) {
+              header.textContent = weeks[index].dates[i];
             }
           });
           
-          showNotification(this.checked ? 'Vertretungen werden angezeigt.' : 'Vertretungen werden ausgeblendet.');
-        });
-      }
-      
-      if (combineDoubleHoursCheck) {
-        combineDoubleHoursCheck.addEventListener('change', function() {
-          // Doppelstunden zusammenfassen oder trennen
-          document.querySelectorAll('tr').forEach(tr => {
-            const rowspanCells = tr.querySelectorAll('td[rowspan="2"]');
-            if (rowspanCells.length > 0 && !this.checked) {
-              // Doppelstunden trennen - komplexe Änderung, die im Produktivsystem implementiert würde
-              showNotification('Doppelstunden werden getrennt angezeigt.');
-            } else if (rowspanCells.length === 0 && this.checked) {
-              // Doppelstunden zusammenfassen - komplexe Änderung, die im Produktivsystem implementiert würde
-              showNotification('Doppelstunden werden zusammengefasst angezeigt.');
-            }
-          });
-        });
+          // Aktualisiere den mobilen Header falls vorhanden
+          const mobileHeader = document.querySelector('.px-4.py-3.border-b h2 span:last-child');
+          if (mobileHeader && weeks[index].dates[0]) {
+            mobileHeader.textContent = weeks[index].dates[0];
+          }
+        }
       }
       
       // Mobile Tagesnavigation
-      const prevDayBtn = document.querySelector('button i[data-feather="chevron-left"]').parentElement;
-      const nextDayBtn = document.querySelector('button i[data-feather="chevron-right"]').parentElement;
+      const prevDayBtn = document.querySelector('button i[data-feather="chevron-left"]')?.parentElement;
+      const nextDayBtn = document.querySelector('button i[data-feather="chevron-right"]')?.parentElement;
       const currentDayHeader = document.querySelector('.px-4.py-3.border-b h2');
       
       if (prevDayBtn && nextDayBtn && currentDayHeader) {
-        const days = ['Montag, 08.04', 'Dienstag, 09.04', 'Mittwoch, 10.04', 'Donnerstag, 11.04', 'Freitag, 12.04'];
+        const days = [
+          {name: 'Montag', date: '08.04'},
+          {name: 'Dienstag', date: '09.04'},
+          {name: 'Mittwoch', date: '10.04'},
+          {name: 'Donnerstag', date: '11.04'},
+          {name: 'Freitag', date: '12.04'}
+        ];
         let currentDayIndex = 0;
         
         prevDayBtn.addEventListener('click', function() {
           currentDayIndex = (currentDayIndex - 1 + days.length) % days.length;
-          currentDayHeader.textContent = days[currentDayIndex];
-          showNotification('Tag gewechselt zu ' + days[currentDayIndex]);
+          updateDayDisplay(currentDayIndex);
+          
+          showToast(`Tag gewechselt zu ${days[currentDayIndex].name}`);
         });
         
         nextDayBtn.addEventListener('click', function() {
           currentDayIndex = (currentDayIndex + 1) % days.length;
-          currentDayHeader.textContent = days[currentDayIndex];
-          showNotification('Tag gewechselt zu ' + days[currentDayIndex]);
+          updateDayDisplay(currentDayIndex);
+          
+          showToast(`Tag gewechselt zu ${days[currentDayIndex].name}`);
         });
-      }
-      
-      // Mobile "Vollständigen Tagesplan anzeigen" Link
-      const showFullDayLink = document.querySelector('a.text-amber-600');
-      if (showFullDayLink) {
-        showFullDayLink.addEventListener('click', function(e) {
-          e.preventDefault();
-          showNotification('Vollständiger Tagesplan wird angezeigt.');
-        });
+        
+        function updateDayDisplay(index) {
+          if (currentDayHeader) {
+            currentDayHeader.innerHTML = `
+              <span>${days[index].name}</span>
+              <span class="ml-1 text-amber-500 dark:text-amber-400">${days[index].date}</span>
+            `;
+          }
+        }
       }
       
       // Benachrichtigungssystem
-      function showNotification(message) {
+      function showToast(message) {
         // Überprüfen, ob bereits eine Benachrichtigung existiert
         let notification = document.getElementById('notification');
         
@@ -1173,11 +1082,5 @@
       }
     });
   </script>
-  <style>
-    /* Dark Mode Styles */
-    .dark {
-      color-scheme: dark;
-    }
-  </style>
 </body>
-</html>
+<%- include('./partials/footer') %>
