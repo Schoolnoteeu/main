@@ -1,0 +1,772 @@
+<!-- views/tasks.ejs -->
+
+<%- include('./partials/header') %>
+<body class="bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+  <div class="min-h-screen flex flex-col">
+    <main class="flex-1">
+      <div class="max-w-5xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+        <!-- Header mit Titel und Hinzufügen-Button -->
+        <div class="mb-6">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center">
+              <div class="bg-gradient-to-r from-amber-500 to-amber-600 p-3 rounded-lg shadow-md mr-4">
+                <i data-feather="check-square" class="h-6 w-6 text-white"></i>
+              </div>
+              <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Aufgaben</h1>
+            </div>
+            
+            <button id="addTaskBtn" type="button" class="flex items-center px-4 py-2 bg-gradient-to-r from-amber-500 to-amber-600 text-white rounded-md shadow-sm hover:from-amber-600 hover:to-amber-700 transition-all duration-300" aria-label="Neue Aufgabe hinzufügen">
+              <i data-feather="plus" class="h-4 w-4 mr-2"></i>
+              Neue Aufgabe
+            </button>
+          </div>
+        </div>
+
+        <!-- Filter und Suche -->
+        <div class="mb-6">
+          <div class="flex flex-col md:flex-row gap-4">
+            <!-- Suchleiste -->
+            <div class="flex-grow">
+              <div class="relative">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <i data-feather="search" class="h-5 w-5 text-gray-400"></i>
+                </div>
+                <input type="text" id="search-tasks" placeholder="Aufgaben suchen..." class="block w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 shadow-sm transition-colors duration-200" aria-label="Aufgaben suchen">
+              </div>
+            </div>
+            
+            <!-- Filter-Buttons -->
+            <div class="flex flex-wrap gap-2">
+              <select id="filter-select" class="appearance-none bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-md py-2 pl-3 pr-10 text-sm text-gray-900 dark:text-white focus:ring-2 focus:ring-amber-500 focus:border-amber-500 shadow-sm transition-colors duration-200" aria-label="Aufgaben filtern">
+                <option value="all">Alle Aufgaben</option>
+                <option value="due-soon">Heute fällig</option>
+                <option value="overdue">Überfällig</option>
+                <option value="completed">Erledigt</option>
+              </select>
+              
+              <select id="subject-select" class="appearance-none bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-md py-2 pl-3 pr-10 text-sm text-gray-900 dark:text-white focus:ring-2 focus:ring-amber-500 focus:border-amber-500 shadow-sm transition-colors duration-200" aria-label="Fach auswählen">
+                <option value="all">Alle Fächer</option>
+                <option value="math">Mathematik</option>
+                <option value="german">Deutsch</option>
+                <option value="english">Englisch</option>
+                <option value="biology">Biologie</option>
+                <option value="physics">Physik</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Übersicht -->
+        <div class="mb-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="bg-red-50 dark:bg-red-900/20 rounded-lg p-4 flex items-center shadow-sm">
+            <div class="rounded-full bg-red-100 dark:bg-red-800/30 p-2 mr-4">
+              <i data-feather="alert-circle" class="h-5 w-5 text-red-500 dark:text-red-400"></i>
+            </div>
+            <div>
+              <p class="text-sm font-medium text-red-800 dark:text-red-400">Überfällig</p>
+              <p class="text-xl font-bold text-red-900 dark:text-red-300">2</p>
+            </div>
+          </div>
+          <div class="bg-amber-50 dark:bg-amber-900/20 rounded-lg p-4 flex items-center shadow-sm">
+            <div class="rounded-full bg-amber-100 dark:bg-amber-800/30 p-2 mr-4">
+              <i data-feather="clock" class="h-5 w-5 text-amber-500 dark:text-amber-400"></i>
+            </div>
+            <div>
+              <p class="text-sm font-medium text-amber-800 dark:text-amber-400">Heute fällig</p>
+              <p class="text-xl font-bold text-amber-900 dark:text-amber-300">1</p>
+            </div>
+          </div>
+          <div class="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4 flex items-center shadow-sm">
+            <div class="rounded-full bg-blue-100 dark:bg-blue-800/30 p-2 mr-4">
+              <i data-feather="calendar" class="h-5 w-5 text-blue-500 dark:text-blue-400"></i>
+            </div>
+            <div>
+              <p class="text-sm font-medium text-blue-800 dark:text-blue-400">Kommend</p>
+              <p class="text-xl font-bold text-blue-900 dark:text-blue-300">5</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Aufgabenliste -->
+        <div class="space-y-6">
+          <!-- Überfällige Aufgaben -->
+          <div class="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
+            <div class="bg-red-50 dark:bg-red-900/20 px-4 py-3 flex items-center">
+              <i data-feather="alert-circle" class="h-5 w-5 text-red-500 dark:text-red-400 mr-2"></i>
+              <h2 class="text-sm font-medium text-red-800 dark:text-red-400">Überfällige Aufgaben</h2>
+              <span class="ml-2 px-2 py-0.5 rounded text-xs font-medium bg-red-100 dark:bg-red-800/40 text-red-800 dark:text-red-300">2</span>
+              <button class="ml-auto text-red-500 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 focus:outline-none" aria-label="Abschnitt ein-/ausklappen">
+                <i data-feather="chevron-up" class="h-5 w-5 toggle-icon"></i>
+              </button>
+            </div>
+            
+            <ul class="divide-y divide-gray-200 dark:divide-gray-700" id="overdue-tasks">
+              <!-- Überfällige Aufgabe 1 -->
+              <li class="hover:bg-gray-50 dark:hover:bg-gray-700/40">
+                <div class="px-4 py-4 sm:px-6 flex items-start">
+                  <div class="mr-4 flex-shrink-0 pt-1">
+                    <input type="checkbox" class="h-5 w-5 rounded text-amber-500 focus:ring-amber-500 dark:bg-gray-700" aria-label="Aufgabe als erledigt markieren">
+                  </div>
+                  <div class="min-w-0 flex-1">
+                    <div class="flex flex-wrap items-center justify-between gap-2">
+                      <div class="flex flex-wrap items-center gap-2">
+                        <h3 class="text-base font-medium text-gray-900 dark:text-white">Mathematik Hausaufgabe</h3>
+                        <span class="px-2 py-0.5 rounded-full text-xs font-medium bg-indigo-100 dark:bg-indigo-900/30 text-indigo-800 dark:text-indigo-300">Mathematik</span>
+                      </div>
+                      <span class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-400">
+                        <i data-feather="clock" class="h-3 w-3 mr-1 inline"></i>
+                        2 Tage überfällig
+                      </span>
+                    </div>
+                    <p class="mt-1 text-sm text-gray-700 dark:text-gray-300">
+                      Übungsaufgaben S. 45-47: Differentialrechnung
+                    </p>
+                    <div class="mt-2 flex flex-wrap items-center text-xs text-gray-500 dark:text-gray-400">
+                      <div class="flex items-center">
+                        <i data-feather="calendar" class="h-4 w-4 mr-1.5"></i>
+                        <span>Fällig am: 10.04.2025</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="ml-4 flex-shrink-0 flex items-start space-x-2">
+                    <button class="text-gray-400 hover:text-amber-500 dark:text-gray-500 dark:hover:text-amber-400 p-1 rounded-full" title="Bearbeiten" aria-label="Aufgabe bearbeiten">
+                      <i data-feather="edit-2" class="h-5 w-5"></i>
+                    </button>
+                    <button class="text-gray-400 hover:text-red-500 dark:text-gray-500 dark:hover:text-red-400 p-1 rounded-full" title="Löschen" aria-label="Aufgabe löschen">
+                      <i data-feather="trash-2" class="h-5 w-5"></i>
+                    </button>
+                  </div>
+                </div>
+              </li>
+              
+              <!-- Überfällige Aufgabe 2 -->
+              <li class="hover:bg-gray-50 dark:hover:bg-gray-700/40">
+                <div class="px-4 py-4 sm:px-6 flex items-start">
+                  <div class="mr-4 flex-shrink-0 pt-1">
+                    <input type="checkbox" class="h-5 w-5 rounded text-amber-500 focus:ring-amber-500 dark:bg-gray-700" aria-label="Aufgabe als erledigt markieren">
+                  </div>
+                  <div class="min-w-0 flex-1">
+                    <div class="flex flex-wrap items-center justify-between gap-2">
+                      <div class="flex flex-wrap items-center gap-2">
+                        <h3 class="text-base font-medium text-gray-900 dark:text-white">Deutsch Buchvorstellung</h3>
+                        <span class="px-2 py-0.5 rounded-full text-xs font-medium bg-pink-100 dark:bg-pink-900/30 text-pink-800 dark:text-pink-300">Deutsch</span>
+                      </div>
+                      <span class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-400">
+                        <i data-feather="clock" class="h-3 w-3 mr-1 inline"></i>
+                        1 Tag überfällig
+                      </span>
+                    </div>
+                    <p class="mt-1 text-sm text-gray-700 dark:text-gray-300">
+                      Präsentation zum gelesenen Buch vorbereiten (5-7 Minuten)
+                    </p>
+                    <div class="mt-2 flex flex-wrap items-center text-xs text-gray-500 dark:text-gray-400">
+                      <div class="flex items-center">
+                        <i data-feather="calendar" class="h-4 w-4 mr-1.5"></i>
+                        <span>Fällig am: 11.04.2025</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="ml-4 flex-shrink-0 flex items-start space-x-2">
+                    <button class="text-gray-400 hover:text-amber-500 dark:text-gray-500 dark:hover:text-amber-400 p-1 rounded-full" title="Bearbeiten" aria-label="Aufgabe bearbeiten">
+                      <i data-feather="edit-2" class="h-5 w-5"></i>
+                    </button>
+                    <button class="text-gray-400 hover:text-red-500 dark:text-gray-500 dark:hover:text-red-400 p-1 rounded-full" title="Löschen" aria-label="Aufgabe löschen">
+                      <i data-feather="trash-2" class="h-5 w-5"></i>
+                    </button>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+          
+          <!-- Heute fällige Aufgaben -->
+          <div class="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
+            <div class="bg-amber-50 dark:bg-amber-900/20 px-4 py-3 flex items-center">
+              <i data-feather="alert-triangle" class="h-5 w-5 text-amber-500 dark:text-amber-400 mr-2"></i>
+              <h2 class="text-sm font-medium text-amber-800 dark:text-amber-400">Heute fällig</h2>
+              <span class="ml-2 px-2 py-0.5 rounded text-xs font-medium bg-amber-100 dark:bg-amber-800/40 text-amber-800 dark:text-amber-300">1</span>
+              <button class="ml-auto text-amber-500 dark:text-amber-400 hover:text-amber-700 dark:hover:text-amber-300 focus:outline-none" aria-label="Abschnitt ein-/ausklappen">
+                <i data-feather="chevron-up" class="h-5 w-5 toggle-icon"></i>
+              </button>
+            </div>
+            
+            <ul class="divide-y divide-gray-200 dark:divide-gray-700" id="today-tasks">
+              <!-- Heute fällige Aufgabe -->
+              <li class="hover:bg-gray-50 dark:hover:bg-gray-700/40">
+                <div class="px-4 py-4 sm:px-6 flex items-start">
+                  <div class="mr-4 flex-shrink-0 pt-1">
+                    <input type="checkbox" class="h-5 w-5 rounded text-amber-500 focus:ring-amber-500 dark:bg-gray-700" aria-label="Aufgabe als erledigt markieren">
+                  </div>
+                  <div class="min-w-0 flex-1">
+                    <div class="flex flex-wrap items-center justify-between gap-2">
+                      <div class="flex flex-wrap items-center gap-2">
+                        <h3 class="text-base font-medium text-gray-900 dark:text-white">Biologie Protokoll</h3>
+                        <span class="px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300">Biologie</span>
+                      </div>
+                      <span class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-400">
+                        <i data-feather="clock" class="h-3 w-3 mr-1 inline"></i>
+                        Heute fällig
+                      </span>
+                    </div>
+                    <p class="mt-1 text-sm text-gray-700 dark:text-gray-300">
+                      Laborprotokoll zum Experiment "Zellmembran" fertigstellen
+                    </p>
+                    <div class="mt-2 flex flex-wrap items-center text-xs text-gray-500 dark:text-gray-400">
+                      <div class="flex items-center">
+                        <i data-feather="calendar" class="h-4 w-4 mr-1.5"></i>
+                        <span>Fällig am: 12.04.2025</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="ml-4 flex-shrink-0 flex items-start space-x-2">
+                    <button class="text-gray-400 hover:text-amber-500 dark:text-gray-500 dark:hover:text-amber-400 p-1 rounded-full" title="Bearbeiten" aria-label="Aufgabe bearbeiten">
+                      <i data-feather="edit-2" class="h-5 w-5"></i>
+                    </button>
+                    <button class="text-gray-400 hover:text-red-500 dark:text-gray-500 dark:hover:text-red-400 p-1 rounded-full" title="Löschen" aria-label="Aufgabe löschen">
+                      <i data-feather="trash-2" class="h-5 w-5"></i>
+                    </button>
+                    <button class="text-gray-400 hover:text-blue-500 dark:text-gray-500 dark:hover:text-blue-400 p-1 rounded-full task-expand-btn" title="Details" aria-label="Details anzeigen" aria-expanded="false">
+                      <i data-feather="chevron-down" class="h-5 w-5"></i>
+                    </button>
+                  </div>
+                </div>
+                
+                <!-- Aufklappbarer Bereich -->
+                <div class="hidden task-details px-4 py-3 bg-gray-50 dark:bg-gray-700/30 border-t border-gray-200 dark:border-gray-700">
+                  <div class="flex flex-col space-y-3">
+                    <div class="flex items-start">
+                      <i data-feather="file-text" class="h-5 w-5 text-gray-400 mr-2"></i>
+                      <div class="text-sm text-gray-700 dark:text-gray-300">
+                        <p>Notizen zum Protokoll:</p>
+                        <ul class="list-disc ml-5 mt-1">
+                          <li>Mikroskopaufnahmen einfügen</li>
+                          <li>Diagramme zur Osmose fertigstellen</li>
+                          <li>Quellenverzeichnis aktualisieren</li>
+                        </ul>
+                      </div>
+                    </div>
+                    <div class="flex items-center justify-end space-x-3">
+                      <button class="inline-flex items-center text-xs font-medium text-amber-600 dark:text-amber-400 hover:text-amber-700 dark:hover:text-amber-300">
+                        <i data-feather="paperclip" class="h-4 w-4 mr-1"></i>
+                        Anhänge (2)
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+          
+          <!-- Kommende Aufgaben -->
+          <div class="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
+            <div class="bg-blue-50 dark:bg-blue-900/20 px-4 py-3 flex items-center">
+              <i data-feather="calendar" class="h-5 w-5 text-blue-500 dark:text-blue-400 mr-2"></i>
+              <h2 class="text-sm font-medium text-blue-800 dark:text-blue-400">Kommende Aufgaben</h2>
+              <span class="ml-2 px-2 py-0.5 rounded text-xs font-medium bg-blue-100 dark:bg-blue-800/40 text-blue-800 dark:text-blue-300">3</span>
+              <button class="ml-auto text-blue-500 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 focus:outline-none" aria-label="Abschnitt ein-/ausklappen">
+                <i data-feather="chevron-up" class="h-5 w-5 toggle-icon"></i>
+              </button>
+            </div>
+            
+            <ul class="divide-y divide-gray-200 dark:divide-gray-700" id="upcoming-tasks">
+              <!-- Kommende Aufgabe 1 -->
+              <li class="hover:bg-gray-50 dark:hover:bg-gray-700/40">
+                <div class="px-4 py-4 sm:px-6 flex items-start">
+                  <div class="mr-4 flex-shrink-0 pt-1">
+                    <input type="checkbox" class="h-5 w-5 rounded text-amber-500 focus:ring-amber-500 dark:bg-gray-700" aria-label="Aufgabe als erledigt markieren">
+                  </div>
+                  <div class="min-w-0 flex-1">
+                    <div class="flex flex-wrap items-center justify-between gap-2">
+                      <div class="flex flex-wrap items-center gap-2">
+                        <h3 class="text-base font-medium text-gray-900 dark:text-white">Englisch Aufsatz</h3>
+                        <span class="px-2 py-0.5 rounded-full text-xs font-medium bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300">Englisch</span>
+                      </div>
+                      <span class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-400">
+                        <i data-feather="clock" class="h-3 w-3 mr-1 inline"></i>
+                        In 3 Tagen fällig
+                      </span>
+                    </div>
+                    <p class="mt-1 text-sm text-gray-700 dark:text-gray-300">
+                      Essay zum Thema "The Impact of Social Media on Society" (500-750 Wörter)
+                    </p>
+                    <div class="mt-2 flex flex-wrap items-center text-xs text-gray-500 dark:text-gray-400">
+                      <div class="flex items-center">
+                        <i data-feather="calendar" class="h-4 w-4 mr-1.5"></i>
+                        <span>Fällig am: 15.04.2025</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="ml-4 flex-shrink-0 flex items-start space-x-2">
+                    <button class="text-gray-400 hover:text-amber-500 dark:text-gray-500 dark:hover:text-amber-400 p-1 rounded-full" title="Bearbeiten" aria-label="Aufgabe bearbeiten">
+                      <i data-feather="edit-2" class="h-5 w-5"></i>
+                    </button>
+                    <button class="text-gray-400 hover:text-red-500 dark:text-gray-500 dark:hover:text-red-400 p-1 rounded-full" title="Löschen" aria-label="Aufgabe löschen">
+                      <i data-feather="trash-2" class="h-5 w-5"></i>
+                    </button>
+                  </div>
+                </div>
+              </li>
+              
+              <!-- Weitere kommende Aufgaben... -->
+            </ul>
+          </div>
+          
+          <!-- Erledigte Aufgaben -->
+          <div class="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
+            <div class="bg-green-50 dark:bg-green-900/20 px-4 py-3 flex items-center">
+              <i data-feather="check-circle" class="h-5 w-5 text-green-500 dark:text-green-400 mr-2"></i>
+              <h2 class="text-sm font-medium text-green-800 dark:text-green-400">Erledigte Aufgaben</h2>
+              <span class="ml-2 px-2 py-0.5 rounded text-xs font-medium bg-green-100 dark:bg-green-800/40 text-green-800 dark:text-green-300">2</span>
+              <div class="ml-auto flex items-center">
+                <div class="text-xs text-green-600 dark:text-green-400">
+                  <i data-feather="info" class="h-4 w-4 inline mr-1"></i>
+                  Automatische Löschung nach 15 Tagen
+                </div>
+                <button class="ml-2 text-green-500 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300 focus:outline-none" aria-label="Abschnitt ein-/ausklappen">
+                  <i data-feather="chevron-down" class="h-5 w-5 toggle-icon"></i>
+                </button>
+              </div>
+            </div>
+            
+            <ul class="divide-y divide-gray-200 dark:divide-gray-700" id="completed-tasks">
+              <!-- Erledigte Aufgabe -->
+              <li class="hover:bg-gray-50 dark:hover:bg-gray-700/40 opacity-70">
+                <div class="px-4 py-4 sm:px-6 flex items-start">
+                  <div class="mr-4 flex-shrink-0 pt-1">
+                    <input type="checkbox" class="h-5 w-5 rounded text-green-500 focus:ring-green-500 dark:bg-gray-700" checked aria-label="Aufgabe als unerledigt markieren">
+                  </div>
+                  <div class="min-w-0 flex-1">
+                    <div class="flex flex-wrap items-center justify-between">
+                      <div class="flex flex-wrap items-center gap-2">
+                        <h3 class="text-base font-medium text-gray-500 dark:text-gray-400 line-through">Physik Übungsaufgaben</h3>
+                        <span class="px-2 py-0.5 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400">Physik</span>
+                      </div>
+                      <span class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-400">
+                        <i data-feather="check" class="h-3 w-3 mr-1 inline"></i>
+                        Erledigt am 09.04.2025
+                      </span>
+                    </div>
+                    <p class="mt-1 text-sm text-gray-500 dark:text-gray-400 line-through">
+                      Kapitel 7: Optik - Lichtbrechung und Reflexion
+                    </p>
+                    <div class="mt-2 text-xs text-gray-400 dark:text-gray-500">
+                      Wird gelöscht am: 24.04.2025
+                    </div>
+                  </div>
+                  <div class="ml-4 flex-shrink-0 flex items-start space-x-2">
+                    <button class="text-gray-400 hover:text-red-500 dark:text-gray-500 dark:hover:text-red-400 p-1 rounded-full" title="Löschen" aria-label="Aufgabe löschen">
+                      <i data-feather="trash-2" class="h-5 w-5"></i>
+                    </button>
+                  </div>
+                </div>
+              </li>
+
+              <!-- Weitere erledigte Aufgabe -->
+              <li class="hover:bg-gray-50 dark:hover:bg-gray-700/40 opacity-70">
+                <div class="px-4 py-4 sm:px-6 flex items-start">
+                  <div class="mr-4 flex-shrink-0 pt-1">
+                    <input type="checkbox" class="h-5 w-5 rounded text-green-500 focus:ring-green-500 dark:bg-gray-700" checked aria-label="Aufgabe als unerledigt markieren">
+                  </div>
+                  <div class="min-w-0 flex-1">
+                    <div class="flex flex-wrap items-center justify-between">
+                      <div class="flex flex-wrap items-center gap-2">
+                        <h3 class="text-base font-medium text-gray-500 dark:text-gray-400 line-through">Geschichte Referat</h3>
+                        <span class="px-2 py-0.5 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400">Geschichte</span>
+                      </div>
+                      <span class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-400">
+                        <i data-feather="check" class="h-3 w-3 mr-1 inline"></i>
+                        Erledigt am 01.04.2025
+                      </span>
+                    </div>
+                    <p class="mt-1 text-sm text-gray-500 dark:text-gray-400 line-through">
+                      Die industrielle Revolution in Deutschland
+                    </p>
+                    <div class="mt-2 text-xs text-gray-400 dark:text-gray-500">
+                      Wird gelöscht am: 16.04.2025
+                    </div>
+                  </div>
+                  <div class="ml-4 flex-shrink-0 flex items-start space-x-2">
+                    <button class="text-gray-400 hover:text-red-500 dark:text-gray-500 dark:hover:text-red-400 p-1 rounded-full" title="Löschen" aria-label="Aufgabe löschen">
+                      <i data-feather="trash-2" class="h-5 w-5"></i>
+                    </button>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+  
+  <!-- Aufgabenformular-Modal (standardmäßig ausgeblendet) -->
+  <div id="taskFormModal" class="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center z-50 hidden">
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-lg w-full overflow-y-auto">
+      <div class="px-4 py-5 sm:p-6">
+        <div class="flex items-center justify-between pb-4 border-b border-gray-200 dark:border-gray-700">
+          <h3 class="text-lg font-medium text-gray-900 dark:text-white" id="modal-title">Neue Aufgabe hinzufügen</h3>
+          <button type="button" class="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300 focus:outline-none" id="closeTaskModal" aria-label="Modal schließen">
+            <i data-feather="x" class="h-6 w-6"></i>
+          </button>
+        </div>
+        
+        <form id="taskForm" class="mt-4 space-y-4">
+          <div>
+            <label for="taskTitle" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Titel</label>
+            <input type="text" id="taskTitle" name="title" class="mt-1 block w-full border border-gray-300 dark:border-gray-700 rounded-md shadow-sm py-2 px-3 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white" required>
+          </div>
+          
+          <div>
+            <label for="taskSubject" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Fach</label>
+            <select id="taskSubject" name="subject" class="mt-1 block w-full border border-gray-300 dark:border-gray-700 rounded-md shadow-sm py-2 px-3 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
+              <option value="">Bitte wählen</option>
+              <option value="math">Mathematik</option>
+              <option value="german">Deutsch</option>
+              <option value="english">Englisch</option>
+              <option value="biology">Biologie</option>
+              <option value="physics">Physik</option>
+            </select>
+          </div>
+          
+          <div>
+            <label for="taskDescription" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Beschreibung</label>
+            <textarea id="taskDescription" name="description" rows="3" class="mt-1 block w-full border border-gray-300 dark:border-gray-700 rounded-md shadow-sm py-2 px-3 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"></textarea>
+          </div>
+          
+          <div>
+            <label for="taskDueDate" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Fälligkeitsdatum</label>
+            <input type="date" id="taskDueDate" name="dueDate" class="mt-1 block w-full border border-gray-300 dark:border-gray-700 rounded-md shadow-sm py-2 px-3 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white" required>
+          </div>
+          
+          <div>
+            <label for="taskType" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Typ</label>
+            <div class="mt-1 flex flex-wrap gap-2">
+              <label class="inline-flex items-center">
+                <input type="radio" name="taskType" value="homework" class="focus:ring-amber-500 h-4 w-4 text-amber-600 border-gray-300 dark:border-gray-700" checked>
+                <span class="ml-2 text-sm text-gray-700 dark:text-gray-300">Hausaufgabe</span>
+              </label>
+              <label class="inline-flex items-center">
+                <input type="radio" name="taskType" value="exam" class="focus:ring-amber-500 h-4 w-4 text-amber-600 border-gray-300 dark:border-gray-700">
+                <span class="ml-2 text-sm text-gray-700 dark:text-gray-300">Klausur</span>
+              </label>
+              <label class="inline-flex items-center">
+                <input type="radio" name="taskType" value="project" class="focus:ring-amber-500 h-4 w-4 text-amber-600 border-gray-300 dark:border-gray-700">
+                <span class="ml-2 text-sm text-gray-700 dark:text-gray-300">Projekt</span>
+              </label>
+            </div>
+          </div>
+          
+          <div class="flex items-center justify-end space-x-3 pt-4 border-t border-gray-200 dark:border-gray-700">
+            <button type="button" id="cancelTaskBtn" class="px-4 py-2 border border-gray-300 dark:border-gray-700 shadow-sm text-sm font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-amber-500">
+              Abbrechen
+            </button>
+            <button type="submit" id="saveTaskBtn" class="px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 focus:outline-none focus:ring-2 focus:ring-amber-500">
+              Speichern
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Mobile Button -->
+  <div class="fixed right-4 bottom-4 md:hidden">
+    <button type="button" id="mobileAddBtn" class="h-12 w-12 rounded-full shadow-lg flex items-center justify-center text-white bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 focus:outline-none focus:ring-2 focus:ring-amber-500" aria-label="Neue Aufgabe hinzufügen">
+      <i data-feather="plus" class="h-6 w-6"></i>
+    </button>
+  </div>
+  
+  <!-- JavaScript-Code -->
+  <script>
+    // Initialisieren der Feather-Icons
+    document.addEventListener('DOMContentLoaded', () => {
+      // Feather-Icons initialisieren
+      if (typeof feather !== 'undefined') {
+        feather.replace();
+      }
+      
+      // Ein-/Ausklappen der Sektionen
+      document.querySelectorAll('.toggle-icon').forEach(icon => {
+        icon.closest('button').addEventListener('click', (e) => {
+          const section = e.currentTarget.closest('div');
+          const taskList = section.nextElementSibling;
+          const icon = e.currentTarget.querySelector('.toggle-icon');
+          
+          if (taskList.classList.contains('hidden')) {
+            taskList.classList.remove('hidden');
+            icon.setAttribute('data-feather', 'chevron-up');
+          } else {
+            taskList.classList.add('hidden');
+            icon.setAttribute('data-feather', 'chevron-down');
+          }
+          
+          // Feather-Icons aktualisieren
+          if (typeof feather !== 'undefined') {
+            feather.replace();
+          }
+        });
+      });
+      
+      // Ein-/Ausklappen der Aufgabendetails
+      document.querySelectorAll('.task-expand-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const taskItem = e.currentTarget.closest('li');
+          const detailsSection = taskItem.querySelector('.task-details');
+          const icon = e.currentTarget.querySelector('svg');
+          
+          if (detailsSection.classList.contains('hidden')) {
+            detailsSection.classList.remove('hidden');
+            icon.setAttribute('data-feather', 'chevron-up');
+            e.currentTarget.setAttribute('aria-expanded', 'true');
+          } else {
+            detailsSection.classList.add('hidden');
+            icon.setAttribute('data-feather', 'chevron-down');
+            e.currentTarget.setAttribute('aria-expanded', 'false');
+          }
+          
+          // Feather-Icons aktualisieren
+          if (typeof feather !== 'undefined') {
+            feather.replace();
+          }
+        });
+      });
+      
+      // Modales Fenster für neue Aufgaben
+      const addTaskBtn = document.getElementById('addTaskBtn');
+      const mobileAddBtn = document.getElementById('mobileAddBtn');
+      const taskFormModal = document.getElementById('taskFormModal');
+      const closeTaskModal = document.getElementById('closeTaskModal');
+      const cancelTaskBtn = document.getElementById('cancelTaskBtn');
+      
+      function openModal() {
+        taskFormModal.classList.remove('hidden');
+        document.getElementById('taskTitle').focus();
+      }
+      
+      function closeModal() {
+        taskFormModal.classList.add('hidden');
+      }
+      
+      if (addTaskBtn && taskFormModal) {
+        addTaskBtn.addEventListener('click', openModal);
+      }
+      
+      if (mobileAddBtn && taskFormModal) {
+        mobileAddBtn.addEventListener('click', openModal);
+      }
+      
+      if (closeTaskModal && cancelTaskBtn && taskFormModal) {
+        closeTaskModal.addEventListener('click', closeModal);
+        cancelTaskBtn.addEventListener('click', closeModal);
+        
+        // Schließen bei Klick außerhalb
+        taskFormModal.addEventListener('click', (e) => {
+          if (e.target === taskFormModal) {
+            closeModal();
+          }
+        });
+        
+        // Schließen mit ESC-Taste
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape' && !taskFormModal.classList.contains('hidden')) {
+            closeModal();
+          }
+        });
+      }
+      
+      // Aufgaben-Speicherung mit automatischer Löschung
+      const taskForm = document.getElementById('taskForm');
+      if (taskForm) {
+        taskForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+          // Hier würde man die Aufgabe speichern
+          
+          // Formular zurücksetzen und schließen
+          taskForm.reset();
+          closeModal();
+          
+          // Feedback anzeigen
+          showToast('Aufgabe erfolgreich gespeichert!', 'success');
+        });
+      }
+      
+      // Checkbox-Verhalten mit Verwaltung des Löschdatums
+      document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+        checkbox.addEventListener('change', (e) => {
+          const taskItem = e.target.closest('li');
+          const taskTitle = taskItem.querySelector('h3');
+          const taskDesc = taskItem.querySelector('p');
+          
+          if (e.target.checked) {
+            // Als erledigt markieren
+            taskTitle.classList.add('line-through', 'text-gray-500', 'dark:text-gray-400');
+            if (taskDesc) taskDesc.classList.add('line-through', 'text-gray-500', 'dark:text-gray-400');
+            taskItem.classList.add('opacity-70');
+            
+            // Löschdatum berechnen (15 Tage ab heute)
+            const today = new Date();
+            const deleteDate = new Date(today);
+            deleteDate.setDate(today.getDate() + 15);
+            const formattedDeleteDate = deleteDate.toLocaleDateString('de-DE');
+            
+            // Info zum Löschdatum hinzufügen (dies würde in einer echten Anwendung anders implementiert)
+            const deleteInfo = document.createElement('div');
+            deleteInfo.className = 'mt-2 text-xs text-gray-400 dark:text-gray-500';
+            deleteInfo.innerHTML = `Wird gelöscht am: ${formattedDeleteDate}`;
+            
+            // Hinzufügen des Löschdatum-Infos (in einer echten Anwendung würde dies anders implementiert)
+            const taskContent = taskItem.querySelector('.min-w-0');
+            if (taskContent && !taskContent.querySelector('[data-delete-info]')) {
+              taskContent.appendChild(deleteInfo);
+            }
+            
+            // Feedback
+            showToast(`Aufgabe als erledigt markiert! Wird am ${formattedDeleteDate} gelöscht.`, 'success');
+          } else {
+            // Als unerledigt markieren
+            taskTitle.classList.remove('line-through', 'text-gray-500', 'dark:text-gray-400');
+            if (taskDesc) taskDesc.classList.remove('line-through', 'text-gray-500', 'dark:text-gray-400');
+            taskItem.classList.remove('opacity-70');
+            
+            // Löschdatum-Info entfernen (in einer echten Anwendung würde dies anders implementiert)
+            const deleteInfo = taskItem.querySelector('[data-delete-info]');
+            if (deleteInfo) {
+              deleteInfo.remove();
+            }
+          }
+        });
+      });
+      
+      // Suche
+      const searchInput = document.getElementById('search-tasks');
+      if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+          const searchTerm = e.target.value.toLowerCase().trim();
+          
+          document.querySelectorAll('#overdue-tasks li, #today-tasks li, #upcoming-tasks li, #completed-tasks li').forEach(task => {
+            const taskText = task.textContent.toLowerCase();
+            if (taskText.includes(searchTerm)) {
+              task.style.display = '';
+            } else {
+              task.style.display = 'none';
+            }
+          });
+        });
+      }
+      
+      // Filter nach Fach
+      const subjectSelect = document.getElementById('subject-select');
+      if (subjectSelect) {
+        subjectSelect.addEventListener('change', (e) => {
+          const selectedSubject = e.target.value.toLowerCase();
+          
+          if (selectedSubject === 'all') {
+            // Alle anzeigen
+            document.querySelectorAll('#overdue-tasks li, #today-tasks li, #upcoming-tasks li, #completed-tasks li').forEach(task => {
+              task.style.display = '';
+            });
+          } else {
+            // Nach Fach filtern
+            document.querySelectorAll('#overdue-tasks li, #today-tasks li, #upcoming-tasks li, #completed-tasks li').forEach(task => {
+              const subjectTag = task.querySelector('[class*="rounded-full"]');
+              if (subjectTag && subjectTag.textContent.toLowerCase().includes(selectedSubject)) {
+                task.style.display = '';
+              } else {
+                task.style.display = 'none';
+              }
+            });
+          }
+        });
+      }
+      
+      // Filter nach Status
+      const filterSelect = document.getElementById('filter-select');
+      if (filterSelect) {
+        filterSelect.addEventListener('change', (e) => {
+          const selectedFilter = e.target.value;
+          
+          const sections = {
+            'overdue': document.getElementById('overdue-tasks').closest('div'),
+            'due-soon': document.getElementById('today-tasks').closest('div'),
+            'upcoming': document.getElementById('upcoming-tasks').closest('div'),
+            'completed': document.getElementById('completed-tasks').closest('div')
+          };
+          
+          if (selectedFilter === a'all') {
+            // Alle Sektionen anzeigen
+            Object.values(sections).forEach(section => {
+              section.style.display = '';
+            });
+          } else {
+            // Nur ausgewählte Sektion anzeigen
+            Object.entries(sections).forEach(([key, section]) => {
+              if (key === selectedFilter) {
+                section.style.display = '';
+                // Aufklappen wenn gefiltert
+                const taskList = section.querySelector('ul');
+                const icon = section.querySelector('.toggle-icon');
+                taskList.classList.remove('hidden');
+                icon.setAttribute('data-feather', 'chevron-up');
+                if (typeof feather !== 'undefined') {
+                  feather.replace();
+                }
+              } else {
+                section.style.display = 'none';
+              }
+            });
+          }
+        });
+      }
+      
+      // Toast-Benachrichtigungen
+      function showToast(message, type = 'info') {
+        const toast = document.createElement('div');
+        toast.className = `fixed bottom-4 right-4 px-4 py-2 rounded-lg shadow-lg text-white text-sm z-50 transition-opacity duration-300 opacity-0`;
+        
+        switch (type) {
+          case 'success':
+            toast.classList.add('bg-green-500');
+            break;
+          case 'error':
+            toast.classList.add('bg-red-500');
+            break;
+          default:
+            toast.classList.add('bg-blue-500');
+        }
+        
+        toast.textContent = message;
+        document.body.appendChild(toast);
+        
+        // Animation
+        setTimeout(() => {
+          toast.classList.add('opacity-100');
+        }, 10);
+        
+        // Ausblenden nach 3 Sekunden
+        setTimeout(() => {
+          toast.classList.remove('opacity-100');
+          toast.classList.add('opacity-0');
+          
+          setTimeout(() => {
+            document.body.removeChild(toast);
+          }, 300);
+        }, 3000);
+      }
+      
+      // Dark Mode
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+      }
+      
+      // Simulation der automatischen Löschung (in einer echten Anwendung würde dies serverseitig erfolgen)
+      function setupAutoDeletion() {
+        // Diese Funktion würde in einer echten Anwendung serverseitig implementiert werden
+        console.log('Automatische Löschung für erledigte Aufgaben eingerichtet (15 Tage nach Erledigung)');
+      }
+      
+      setupAutoDeletion();
+    });
+  </script>
+</body>
+<%- include('./partials/footer') %>
